@@ -1,0 +1,81 @@
+[
+  {
+    "id": "common-paper-terms",
+    "version": "2.1",
+    "source_url": "https://commonpaper.com/standards/terms-of-service/",
+    "source_revision": "4afc1f9d9ebad949a67a9585ed527e19f482492b",
+    "retrieved_at": "2026-09-14",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper Terms of Service 2.1. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/terms.md",
+        "sha256": "a3112ec8c8f707d0cb4b37301ac512ef15c062c48e03cb18dbef95a53bf1d048"
+      },
+      {
+        "path": "templates/terms-source.docx",
+        "sha256": "dd5ad5127c9315a82a3d5a8f59942c399faa0320a8bf21570261fea81cbbd08c"
+      },
+      {
+        "path": "templates/csa.md",
+        "sha256": "ff8abae90e99e465bfc89ad5e8da63a52299f9aa40034905afca62b7f8c481a0"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-dpa",
+    "version": "1.1",
+    "source_url": "https://commonpaper.com/standards/data-processing-agreement/",
+    "source_revision": "9f1c40d3fb0bb900397a919d058a9c0870f6b0f0",
+    "retrieved_at": "2026-09-14",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper DPA 1.1. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/dpa-cover.md",
+        "sha256": "102291abb5df42714feb8b5804a663c0cd77fbf46f60b89ebe4ff0c8576b96cb"
+      },
+      {
+        "path": "templates/dpa-cover-source.docx",
+        "sha256": "59468b28f3044721e6b7471a4789d2456d940c9e2369c7ff9a459dc1fb02a902"
+      },
+      {
+        "path": "templates/dpa.md",
+        "sha256": "b4aa93c94bcb4da763fc2338406d3aec2ac1f0a6e32612f114121d609dece05a"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "automattic-privacy",
+    "version": "2026-09-14",
+    "source_url": "https://github.com/Automattic/legalmattic/blob/2f412dc4995bbec73504d077a04198a94ddd3c90/Privacy-Policy.md",
+    "source_revision": "2f412dc4995bbec73504d077a04198a94ddd3c90",
+    "retrieved_at": "2026-09-14",
+    "license": "CC-BY-SA-4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Adapted from Automattic\u2019s Privacy Policy. Changes have been made. Licensed under CC BY-SA 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/privacy.md",
+        "sha256": "c6ad31da8fe0862801bd04b4ec34560a541d5c7af4f0f32c807af98a0a18a291"
+      },
+      {
+        "path": "templates/CC-BY-SA-4.0.txt",
+        "sha256": "8d98a5c0b2c4d5fbf046b8ef9da2308dd1c1ffcc3c8c97c4da70f6b7d78ebe19"
+      }
+    ]
+  }
+]
