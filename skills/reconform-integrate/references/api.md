@@ -20,7 +20,7 @@ Errors throw `ReconformError` with `status` and `code`. A live Free organization
 ## Browser
 
 - React: wrap content in `<ReconformProvider embedOrigin={...}>` and use `<ConsentGate clientSecret={secret} error="...">`, which hides children until consent is complete, or `<ConsentEmbed clientSecret={secret} onAccept={...} />`.
-- Other frameworks: `Reconform.mount(element, { clientSecret, embedOrigin, onAccept, onError, onExpire })` from `@reconform/js` returns a handle with `unmount()`.
+- Other frameworks: `Reconform.mount(element, { clientSecret, embedOrigin, onAccept, onError, onExpire })` from `@reconform/js` returns a handle with `submit()` and `unmount()`.
 
 Test-mode consent screens work on any `localhost` or `127.0.0.1` port with no configuration. Live mode requires the app's exact origin under **Organization → Allowed origins** in Reconform.
 
@@ -29,3 +29,15 @@ Test-mode consent screens work on any `localhost` or `127.0.0.1` port with no co
 The integration requests documents by slug. A sandbox has published example terms under `terms`. Publishing a new version of `terms` changes what users see without code changes. Never create acceptance records through the API on a person's behalf, and never publish documents from this skill.
 
 See the [API reference](https://www.reconform.co/docs/api/) and [quickstart](https://www.reconform.co/docs/).
+
+## Manual submission in SDK 0.4.0
+
+Both layouts require a host-owned submit button. Check/uncheck emits `onChange`;
+never treat `complete` as recorded acceptance. Await `handle.submit()` in browser
+integrations, or use a `ConsentEmbedHandle` ref in React. Keep the button outside
+`ConsentGate`'s protected children. Disable it while incomplete or submitting.
+Handle `accepted`, `already_accepted`, and `nothing_required` as successful results;
+show `error.message` for errors. On `outcome_unknown`, retry `submit()` to confirm.
+A known save failure clears selection and requires checking again. Backend status
+checks still decide access. Upgrade all iframe clients from 0.3.x; legacy clients
+fail with `sdk_upgrade_required`.

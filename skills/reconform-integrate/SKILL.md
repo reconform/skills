@@ -2,7 +2,7 @@
 name: reconform-integrate
 description: Add Reconform terms acceptance to a web app. Creates consent sessions on the backend for the signed-in user, shows the consent screen, and checks acceptance status before granting access. Use after `npx @reconform/cli@next init`, or when asked to wire Reconform into an app.
 metadata:
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
 # Add terms acceptance to an app
@@ -25,7 +25,7 @@ If the app has no authentication, add a clearly marked development-only user ID,
 
 1. Install `@reconform/node@next` for the backend and `@reconform/react@next` for React apps, or `@reconform/js@next` otherwise.
 2. Add a backend endpoint that creates a consent session for the signed-in user with `documents: ["terms"]` and returns only `client_secret` and `status`.
-3. Show the consent screen with that secret where the signed-in experience starts. Skip it when the status is `nothing_required`.
+3. Show the consent screen with that secret where the signed-in experience starts. Use `onChange` to enable a host-owned submit button, and await `handle.submit()` or the React ref’s `submit()` from that button. Keep the button outside `ConsentGate`’s protected children. Checking a box never records acceptance. Skip the screen when the status is `nothing_required`.
 4. Add a backend status check where the app grants access to protected features. Treat the browser `onAccept` callback as a UI signal, not authorization.
 5. If `RECONFORM_API_URL` is set, pass it as the Node client's `baseUrl` and use the matching embed origin from the API reference.
 
