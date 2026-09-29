@@ -1,0 +1,329 @@
+[
+  {
+    "id": "terms",
+    "name": "Terms of Service",
+    "slug": "terms",
+    "api_kind": "terms",
+    "picker_group": "Website policies",
+    "template": "common-paper-terms",
+    "mode": "cover+standard",
+    "template_files": ["templates/terms.md"],
+    "standard": "templates/csa.md",
+    "questions": "questions/terms.json",
+    "depends_on": [],
+    "required_sections": [
+      "Last updated",
+      "Cover Page",
+      "Key Terms",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "privacy",
+    "name": "Privacy Policy",
+    "slug": "privacy",
+    "api_kind": "privacy",
+    "picker_group": "Website policies",
+    "template": "automattic-privacy",
+    "mode": "adapted-body",
+    "template_files": ["templates/privacy.md"],
+    "standard": null,
+    "questions": "questions/privacy.json",
+    "depends_on": [],
+    "required_sections": [
+      "Last updated",
+      "Information We Collect",
+      "How and Why We Use Information",
+      "Sharing Information",
+      "How Long We Keep Information",
+      "Security",
+      "Your Rights",
+      "How to Reach Us"
+    ],
+    "source_terms": [
+      "Automattic",
+      "WordPress",
+      "Jetpack",
+      "Tumblr",
+      "WooCommerce",
+      "Gravatar",
+      "Akismet"
+    ]
+  },
+  {
+    "id": "dpa",
+    "name": "Data Processing Agreement",
+    "slug": "dpa",
+    "api_kind": "dpa",
+    "picker_group": "Data and security",
+    "template": "common-paper-dpa",
+    "mode": "cover+standard",
+    "template_files": ["templates/dpa-cover.md"],
+    "standard": "templates/dpa.md",
+    "questions": "questions/dpa.json",
+    "depends_on": ["privacy", "subprocessors"],
+    "required_sections": [
+      "Key Terms",
+      "Annex I",
+      "Annex II",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "subprocessors",
+    "name": "Subprocessor list",
+    "slug": "subprocessors",
+    "api_kind": "custom",
+    "picker_group": "Data and security",
+    "template": null,
+    "mode": "app-generated",
+    "template_files": [],
+    "standard": null,
+    "questions": "questions/subprocessors.json",
+    "depends_on": [],
+    "required_sections": [],
+    "source_terms": []
+  },
+  {
+    "id": "cookie",
+    "name": "Cookie Policy",
+    "slug": "cookie",
+    "api_kind": "cookie",
+    "picker_group": "Website policies",
+    "template": "automattic-cookie",
+    "mode": "adapted-body",
+    "template_files": ["templates/cookie.md"],
+    "standard": null,
+    "questions": "questions/cookie.json",
+    "depends_on": ["privacy"],
+    "required_sections": [
+      "Last updated",
+      "What are cookies",
+      "How we use cookies",
+      "Types of Cookie",
+      "Controlling Cookies",
+      "Contact Us"
+    ],
+    "source_terms": [
+      "Automattic",
+      "WordPress",
+      "Jetpack",
+      "WooCommerce",
+      "Parse.ly",
+      "Longreads",
+      "Calypso",
+      "pubmine"
+    ]
+  },
+  {
+    "id": "aup",
+    "name": "Acceptable Use Policy",
+    "slug": "aup",
+    "api_kind": "custom",
+    "picker_group": "Website policies",
+    "template": "basecamp-aup",
+    "mode": "adapted-body",
+    "template_files": ["templates/aup.md"],
+    "standard": null,
+    "questions": "questions/aup.json",
+    "depends_on": [],
+    "required_sections": [
+      "Last updated",
+      "Restricted purposes",
+      "How to report abuse"
+    ],
+    "source_terms": [
+      "Basecamp",
+      "HEY",
+      "Highrise",
+      "37signals",
+      "Campfire",
+      "Backpack",
+      "Writeboard",
+      "Ta-da List"
+    ]
+  },
+  {
+    "id": "refund",
+    "name": "Refund and cancellation policy",
+    "slug": "refund",
+    "api_kind": "custom",
+    "picker_group": "Licensing and billing",
+    "template": "basecamp-refund",
+    "mode": "adapted-body",
+    "template_files": [
+      "templates/refund.md",
+      "templates/refund-cancellation.md"
+    ],
+    "standard": null,
+    "questions": "questions/refund.json",
+    "depends_on": ["terms"],
+    "required_sections": [
+      "Examples of full refunds",
+      "Examples of partial refunds",
+      "Cancellation policy",
+      "What happens when you cancel",
+      "Get in touch"
+    ],
+    "source_terms": [
+      "Basecamp",
+      "HEY",
+      "Highrise",
+      "37signals",
+      "Campfire",
+      "Backpack",
+      "Writeboard",
+      "Ta-da List",
+      "site.email_support"
+    ]
+  },
+  {
+    "id": "sla",
+    "name": "Service Level Agreement",
+    "slug": "sla",
+    "api_kind": "custom",
+    "picker_group": "Customer contracts",
+    "template": "common-paper-sla",
+    "mode": "cover+standard",
+    "template_files": ["templates/sla-cover.md"],
+    "standard": "templates/sla.md",
+    "questions": "questions/sla.json",
+    "depends_on": ["terms"],
+    "required_sections": [
+      "Order Form",
+      "Service Level Agreement",
+      "Key Terms",
+      "Governing Law",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "nda",
+    "name": "Mutual NDA",
+    "slug": "nda",
+    "api_kind": "custom",
+    "picker_group": "Customer contracts",
+    "template": "common-paper-nda",
+    "mode": "cover+standard",
+    "template_files": ["templates/nda-cover.md"],
+    "standard": "templates/nda.md",
+    "questions": "questions/nda.json",
+    "depends_on": [],
+    "required_sections": [
+      "Mutual Non-Disclosure Agreement",
+      "Purpose",
+      "MNDA Term",
+      "Term of Confidentiality",
+      "Governing Law",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "baa",
+    "name": "Business Associate Agreement",
+    "slug": "baa",
+    "api_kind": "custom",
+    "picker_group": "Data and security",
+    "template": "common-paper-baa",
+    "mode": "cover+standard",
+    "template_files": ["templates/baa-cover.md"],
+    "standard": "templates/baa.md",
+    "questions": "questions/baa.json",
+    "depends_on": ["terms"],
+    "required_sections": [
+      "Business Associate Agreement",
+      "Key Terms",
+      "Relationship",
+      "Breach Notification Period",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "ai-addendum",
+    "name": "AI Addendum",
+    "slug": "ai-addendum",
+    "api_kind": "custom",
+    "picker_group": "Data and security",
+    "template": "common-paper-ai-addendum",
+    "mode": "cover+standard",
+    "template_files": ["templates/ai-addendum-cover.md"],
+    "standard": "templates/ai-addendum.md",
+    "questions": "questions/ai-addendum.json",
+    "depends_on": ["terms"],
+    "required_sections": [
+      "AI Addendum",
+      "Training Data",
+      "Training Purposes",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "psa",
+    "name": "Professional Services Agreement",
+    "slug": "psa",
+    "api_kind": "custom",
+    "picker_group": "Customer contracts",
+    "template": "common-paper-psa",
+    "mode": "cover+standard",
+    "template_files": ["templates/psa-cover.md"],
+    "standard": "templates/psa.md",
+    "questions": "questions/psa.json",
+    "depends_on": [],
+    "required_sections": [
+      "SOW",
+      "Services",
+      "Key Terms",
+      "Governing Law",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "pilot",
+    "name": "Pilot Agreement",
+    "slug": "pilot",
+    "api_kind": "custom",
+    "picker_group": "Customer contracts",
+    "template": "common-paper-pilot",
+    "mode": "cover+standard",
+    "template_files": ["templates/pilot-cover.md"],
+    "standard": "templates/pilot.md",
+    "questions": "questions/pilot.json",
+    "depends_on": [],
+    "required_sections": [
+      "Order Form",
+      "Pilot Period",
+      "Governing Law",
+      "General Cap Amount",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  },
+  {
+    "id": "software-license",
+    "name": "Software License Agreement",
+    "slug": "software-license",
+    "api_kind": "custom",
+    "picker_group": "Licensing and billing",
+    "template": "common-paper-software-license",
+    "mode": "cover+standard",
+    "template_files": ["templates/software-license-cover.md"],
+    "standard": "templates/software-license.md",
+    "questions": "questions/software-license.json",
+    "depends_on": [],
+    "required_sections": [
+      "Order Form",
+      "Software",
+      "Key Terms",
+      "Governing Law",
+      "Standard terms (convenience copy)"
+    ],
+    "source_terms": []
+  }
+]

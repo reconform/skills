@@ -1,0 +1,165 @@
+{
+  "document": "psa",
+  "uses": ["company-legal-name", "legal-contact-email", "governing-law"],
+  "questions": [
+    {
+      "id": "psa-services",
+      "label": "Services",
+      "ask": "What professional services do you offer?",
+      "type": "text",
+      "example": "Onboarding: workspace setup, data import from spreadsheets and two training sessions",
+      "fills": "SOW: Services. SOW and Agreement uses the clickthrough model: the Key Terms are included below and Customer is the company or person who accepts this agreement; SOW Date and Effective Date are the date Customer first accepts.",
+      "codebase": "Pricing or services pages mentioning onboarding, setup, migration or custom work.",
+      "legal_choice": false
+    },
+    {
+      "id": "psa-deliverables",
+      "label": "Deliverables",
+      "ask": "Does the customer receive deliverables it will own, and when?",
+      "type": "choice",
+      "options": [
+        "No deliverables, services only",
+        "Yes, the customer owns them as they are created",
+        "Yes, the customer owns them once paid"
+      ],
+      "fills": "SOW: Deliverables and Time of Assignment (delete both when none)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "psa-third-party",
+      "label": "Third-party materials",
+      "ask": "Can deliverables include third-party software or content?",
+      "type": "choice",
+      "options": ["No", "Yes, we procure it", "Yes, the customer procures it"],
+      "fills": "SOW: Third-Party Materials (delete when no deliverables)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "psa-acceptance",
+      "label": "Acceptance",
+      "ask": "Can the customer reject a deliverable?",
+      "type": "choice",
+      "options": [
+        "No formal acceptance",
+        "Reject within 10 business days; we resubmit within 10",
+        "Reject within 5 business days; we resubmit within 5"
+      ],
+      "fills": "SOW: acceptance process, Rejection and Resubmission Periods",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "psa-fees",
+      "label": "Fees",
+      "ask": "How are services priced?",
+      "type": "choice",
+      "options": [
+        "Fixed project fee",
+        "Hourly rate",
+        "Per milestone",
+        "Included in the subscription"
+      ],
+      "fills": "SOW: Fees and travel and expenses",
+      "codebase": "Pricing page entries for services.",
+      "follow_up": "Ask for the amount, and whether travel and expenses are billed (at cost, pre-approved) or not at all.",
+      "legal_choice": false
+    },
+    {
+      "id": "psa-payment",
+      "label": "Invoicing and payment",
+      "ask": "How are services invoiced and paid?",
+      "type": "choice",
+      "options": [
+        "Invoiced monthly, due in 30 days",
+        "Invoiced on completion, due in 30 days",
+        "Invoiced per milestone, due in 15 days",
+        "Paid upfront by card"
+      ],
+      "fills": "SOW: Payment Period and Invoice Period",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "psa-sow-term",
+      "label": "SOW length",
+      "ask": "How long does an SOW run?",
+      "type": "choice",
+      "options": ["3 months", "6 months", "12 months"],
+      "fills": "SOW: SOW Term",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "psa-customer-obligations",
+      "label": "Customer obligations",
+      "ask": "What must the customer do for the services to go well?",
+      "type": "multi",
+      "options": [
+        "Name a single point of contact",
+        "Give timely access to data and systems",
+        "Review work and reply within agreed times"
+      ],
+      "fills": "SOW: Customer Obligations",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "psa-liability-cap",
+      "label": "Liability cap",
+      "ask": "What is the most either side can owe for most claims?",
+      "type": "choice",
+      "options": [
+        "1x fees paid in the prior 12 months",
+        "2x fees paid in the prior 12 months",
+        "Greater of $50,000 or 1x fees"
+      ],
+      "fills": "Key Terms: General Cap Amount",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "psa-increased-claims",
+      "label": "Higher-cap claims",
+      "ask": "Which claims get a higher cap, and how high?",
+      "type": "choice",
+      "options": [
+        "None; the general cap covers everything",
+        "Privacy, security and confidentiality breaches at 2x fees",
+        "Those breaches plus indemnities at 3x fees"
+      ],
+      "fills": "Key Terms: Increased Claims and Increased Cap Amount (delete both when none)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "psa-unlimited-claims",
+      "label": "Uncapped claims",
+      "ask": "Which claims have no liability cap at all?",
+      "type": "multi",
+      "options": [
+        "Indemnification obligations",
+        "Gross negligence or willful misconduct",
+        "None"
+      ],
+      "fills": "Key Terms: Unlimited Claims (delete when none). Covered Claims keep the template wording; Additional Warranties, Customer Policies and Other Changes are deleted unless the founder names one.",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "psa-insurance",
+      "label": "Insurance",
+      "ask": "Which insurance do you promise to carry?",
+      "type": "choice",
+      "options": [
+        "No insurance commitments",
+        "E&O and cyber, $1M per occurrence",
+        "General liability, E&O and cyber, $1M each"
+      ],
+      "fills": "Key Terms: Insurance Minimums (delete when none). DPA row links the published DPA when one exists, otherwise it is deleted.",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

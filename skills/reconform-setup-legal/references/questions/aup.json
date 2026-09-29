@@ -1,0 +1,119 @@
+{
+  "document": "aup",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "website-url",
+    "legal-pages-url"
+  ],
+  "questions": [
+    {
+      "id": "aup-extra-restrictions",
+      "label": "Product-specific restrictions",
+      "ask": "Besides the standard list (violence, abuse, hate, malware, fraud, spam, infringement), what else is off limits?",
+      "type": "multi",
+      "options": [
+        "Reselling or sharing accounts",
+        "Scraping, load testing or probing the service's security",
+        "Uploading regulated data (health records, card numbers)",
+        "Using the product to build a competing product"
+      ],
+      "fills": "AUP: Restricted purposes (added to the adapted source list)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "aup-ai-use",
+      "label": "AI features",
+      "ask": "Does the product have AI features that need their own rules?",
+      "type": "choice",
+      "options": [
+        "No AI features",
+        "Yes: no illegal or harmful output, no bypassing safety limits",
+        "Yes, and we follow our model provider's usage policy too"
+      ],
+      "fills": "AUP: Restricted purposes (AI entries)",
+      "codebase": "LLM SDK imports (OpenAI, Anthropic, Vercel AI SDK) and prompt handling code.",
+      "legal_choice": false
+    },
+    {
+      "id": "aup-usage-limits",
+      "label": "Usage limits",
+      "ask": "How do you limit heavy or automated use?",
+      "type": "choice",
+      "options": [
+        "Fair use: no load far beyond normal use of the plan",
+        "Published rate limits and quotas",
+        "No usage limits in this policy"
+      ],
+      "fills": "AUP: Restricted purposes (excessive use entry)",
+      "codebase": "Rate limiting middleware, plan quotas, API throttling config.",
+      "legal_choice": false
+    },
+    {
+      "id": "aup-abuse-contact",
+      "label": "Abuse reports",
+      "ask": "Which email address should receive abuse reports?",
+      "type": "text",
+      "example": "abuse@acme.com",
+      "fills": "AUP: How to report abuse (replaces both Basecamp addresses)",
+      "codebase": "security.txt, existing policy pages, support email config.",
+      "legal_choice": false
+    },
+    {
+      "id": "aup-response-time",
+      "label": "First response",
+      "ask": "How soon will you confirm you are looking into a report?",
+      "type": "choice",
+      "options": [
+        "Within one business day",
+        "Within two business days",
+        "Within five business days"
+      ],
+      "fills": "AUP: How to report abuse (response promise)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "aup-enforcement",
+      "label": "Enforcement",
+      "ask": "What happens when someone breaks the policy?",
+      "type": "choice",
+      "options": [
+        "Warn first, then suspend; suspend at once for serious harm",
+        "Remove the content; suspend repeat offenders",
+        "Suspend or close the account at our discretion"
+      ],
+      "fills": "AUP: enforcement paragraph (replaces the 'we will take action' link)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "aup-customer-responsibility",
+      "label": "Customer responsibility",
+      "ask": "Is the customer responsible for what its invited users do?",
+      "type": "choice",
+      "options": [
+        "Yes, the customer answers for its users",
+        "No, each user answers for themselves"
+      ],
+      "fills": "AUP: scope paragraph",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "aup-reporter-identity",
+      "label": "Reporter privacy",
+      "ask": "Will you keep a reporter's identity from the reported account?",
+      "type": "choice",
+      "options": [
+        "Yes, unless the law requires disclosure",
+        "No promise either way"
+      ],
+      "fills": "AUP: How to report abuse (confidentiality sentence)",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

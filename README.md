@@ -16,11 +16,11 @@ claude plugin marketplace add reconform/skills
 
 | Skill | Version |
 | --- | --- |
-| [reconform-create-document](skills/reconform-create-document/SKILL.md) | 1.0.0 |
+| [reconform-create-document](skills/reconform-create-document/SKILL.md) | 2.0.0 |
 | [reconform-edit-document](skills/reconform-edit-document/SKILL.md) | 1.0.0 |
 | [reconform-import-document](skills/reconform-import-document/SKILL.md) | 1.0.0 |
 | [reconform-integrate](skills/reconform-integrate/SKILL.md) | 2.0.0 |
 | [reconform-prepare-publication](skills/reconform-prepare-publication/SKILL.md) | 1.0.0 |
-| [reconform-setup-legal](skills/reconform-setup-legal/SKILL.md) | 1.2.0 |
+| [reconform-setup-legal](skills/reconform-setup-legal/SKILL.md) | 2.0.0 |
 
 Start with https://www.reconform.co/start.md. Versioned archives and checksums are at https://www.reconform.co/skills/.

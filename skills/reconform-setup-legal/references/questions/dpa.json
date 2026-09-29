@@ -1,0 +1,138 @@
+{
+  "document": "dpa",
+  "uses": [
+    "company-legal-name",
+    "company-address",
+    "legal-contact-email",
+    "product-name",
+    "backup-retention",
+    "legal-pages-url"
+  ],
+  "clause_reviews": {
+    "5.2": ["audit-reports"],
+    "6": ["deletion-return"]
+  },
+  "questions": [
+    {
+      "id": "dpa-agreement",
+      "label": "Underlying agreement",
+      "ask": "Which agreement does this DPA supplement?",
+      "type": "choice",
+      "options": [
+        "Our online Terms of Service",
+        "Signed customer agreements",
+        "Both"
+      ],
+      "fills": "Cover: Agreement",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "security-contact",
+      "label": "Security contact",
+      "ask": "Where should customers report security issues?",
+      "type": "text",
+      "example": "security@acme.com",
+      "fills": "Cover: Provider Security Contact",
+      "codebase": "security.txt, SECURITY.md, existing security page.",
+      "legal_choice": false
+    },
+    {
+      "id": "security-measures",
+      "label": "Security measures",
+      "ask": "Which security measures do you actually run today?",
+      "type": "multi",
+      "options": [
+        "Encryption in transit (TLS) and at rest",
+        "Multi-factor or SSO access for staff to production",
+        "Access and audit logging",
+        "Automated backups with tested restores"
+      ],
+      "fills": "Cover: Security Policy and Annex II",
+      "codebase": "Only as a proposal: HTTPS enforcement, database encryption settings, logging setup. Staff access controls are not visible in code.",
+      "legal_choice": false
+    },
+    {
+      "id": "audit-reports",
+      "label": "Audit reports",
+      "ask": "Which independent security reports can you share with customers?",
+      "type": "choice",
+      "options": [
+        "None yet; we answer security questionnaires",
+        "SOC 2 Type II report under NDA",
+        "ISO 27001 certificate",
+        "Annual penetration test summary"
+      ],
+      "fills": "Clause review 5.2 and Security Policy certifications",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "data-subjects",
+      "label": "Whose data you process",
+      "ask": "Whose personal data do customers put into the product?",
+      "type": "multi",
+      "options": [
+        "The customer's employees and team members",
+        "The customer's own customers or end users",
+        "Contacts the customer imports (leads, vendors, candidates)"
+      ],
+      "fills": "Annex I(B): Categories of Data Subjects",
+      "codebase": "Data models for people records other than the logged-in user.",
+      "legal_choice": false
+    },
+    {
+      "id": "customer-data-categories",
+      "label": "Categories of customer personal data",
+      "ask": "Which kinds of personal data does the product process for customers?",
+      "type": "multi",
+      "options": [
+        "Names and contact details",
+        "Usage and device data such as IP addresses",
+        "Transaction or account information",
+        "Free-form content that may contain anything"
+      ],
+      "fills": "Annex I(B): Categories of Personal Data",
+      "codebase": "Database schema and upload handlers.",
+      "legal_choice": false
+    },
+    {
+      "id": "special-category-data",
+      "label": "Sensitive data",
+      "ask": "Does the product intentionally process sensitive data (health, biometrics, religion, political views, sexual orientation)?",
+      "type": "choice",
+      "options": ["No", "Yes (describe what and why)"],
+      "fills": "Annex I(B): Special Category Data. Yes means the templates may not fit; flag it.",
+      "codebase": "Schema fields for health, biometric or similar data.",
+      "legal_choice": false
+    },
+    {
+      "id": "deletion-return",
+      "label": "Deletion when the contract ends",
+      "ask": "When the contract ends, what happens to customer personal data?",
+      "type": "choice",
+      "options": [
+        "Deleted within 30 days, export available before then",
+        "Returned on request, then deleted within 60 days",
+        "Deleted immediately at the customer's request"
+      ],
+      "fills": "Clause review 6",
+      "codebase": "Workspace deletion and export features.",
+      "legal_choice": false
+    },
+    {
+      "id": "eu-uk-transfers",
+      "label": "EU and UK data",
+      "ask": "Do customers send you personal data from the EU or UK?",
+      "type": "choice",
+      "options": [
+        "No EU or UK customers",
+        "EU customers (SCCs governed by Irish law)",
+        "EU and UK customers (SCCs plus UK Addendum)"
+      ],
+      "fills": "Restricted Transfers: Governing Member State",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

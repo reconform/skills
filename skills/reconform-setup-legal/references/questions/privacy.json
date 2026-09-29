@@ -1,0 +1,121 @@
+{
+  "document": "privacy",
+  "uses": [
+    "company-legal-name",
+    "company-address",
+    "legal-contact-email",
+    "product-name",
+    "website-url",
+    "customer-audience",
+    "backup-retention",
+    "legal-pages-url"
+  ],
+  "questions": [
+    {
+      "id": "personal-data-collected",
+      "label": "Personal data collected",
+      "ask": "Which personal data does the product collect about the people who use it?",
+      "type": "multi",
+      "options": [
+        "Account details (name, email, password or SSO identity)",
+        "Billing details (handled by a payment processor)",
+        "Device and usage data (IP address, browser, pages used)",
+        "Content users upload or create"
+      ],
+      "fills": "Privacy: Information We Collect",
+      "codebase": "User and account schemas, signup forms, auth provider, payment SDK, file upload handlers.",
+      "legal_choice": false
+    },
+    {
+      "id": "analytics-tracking",
+      "label": "Analytics and tracking",
+      "ask": "Which tracking tools run on the website or in the product?",
+      "type": "multi",
+      "options": [
+        "Product analytics (PostHog, Amplitude, Mixpanel, Google Analytics)",
+        "Advertising or retargeting pixels",
+        "Error and performance monitoring (Sentry, Datadog)",
+        "None"
+      ],
+      "fills": "Privacy: Information We Collect and Cookies sections",
+      "codebase": "Analytics, pixel and monitoring SDK initialization in client and server code, script tags in the root layout.",
+      "legal_choice": false
+    },
+    {
+      "id": "advertising-sharing",
+      "label": "Selling or sharing for ads",
+      "ask": "Do you sell personal data, or share it with others for their advertising?",
+      "type": "choice",
+      "options": [
+        "No, never",
+        "We use ad pixels that share data with ad networks"
+      ],
+      "fills": "Privacy: How We Share Information, US state privacy rights",
+      "codebase": "Advertising pixels (Meta, Google Ads, LinkedIn Insight, TikTok) in page markup.",
+      "legal_choice": false
+    },
+    {
+      "id": "marketing-email",
+      "label": "Marketing email",
+      "ask": "Which emails do you send to users?",
+      "type": "choice",
+      "options": [
+        "Only product and account emails",
+        "Product emails plus marketing with an unsubscribe link",
+        "No emails"
+      ],
+      "fills": "Privacy: How We Use Information, choices section",
+      "codebase": "Email provider SDK (Resend, Postmark, SendGrid, Customer.io, Loops) and the templates it sends.",
+      "legal_choice": false
+    },
+    {
+      "id": "account-data-retention",
+      "label": "Account data retention",
+      "ask": "After someone deletes their account, how long until their personal data is deleted from live systems?",
+      "type": "choice",
+      "options": ["Immediately", "Within 30 days", "Within 90 days"],
+      "fills": "Privacy: How Long We Keep Information (backups follow backup-retention)",
+      "codebase": "Account deletion handlers, soft-delete columns and purge jobs.",
+      "legal_choice": false
+    },
+    {
+      "id": "rights-requests",
+      "label": "Privacy requests",
+      "ask": "How can people access, correct, export or delete their data?",
+      "type": "choice",
+      "options": [
+        "Email the privacy contact",
+        "Self-service in account settings, plus email",
+        "Through their employer's admin, plus email"
+      ],
+      "fills": "Privacy: Your Rights, and how requests are answered",
+      "codebase": "Account settings pages with delete or export actions.",
+      "legal_choice": false
+    },
+    {
+      "id": "minimum-age",
+      "label": "Minimum age",
+      "ask": "What is the minimum age to use the product?",
+      "type": "choice",
+      "options": ["18", "16", "13"],
+      "fills": "Privacy: children's privacy",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "data-locations",
+      "label": "Where data is stored",
+      "ask": "Where is personal data stored and processed?",
+      "type": "choice",
+      "options": [
+        "United States",
+        "European Union",
+        "United States and European Union",
+        "Other (type the countries)"
+      ],
+      "fills": "Privacy: international transfers",
+      "codebase": "Hosting and database regions in infrastructure config (vercel.json, fly.toml, Terraform, wrangler.toml, Supabase or Neon project region).",
+      "legal_choice": false
+    }
+  ]
+}

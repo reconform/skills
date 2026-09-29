@@ -1,0 +1,112 @@
+{
+  "document": "ai-addendum",
+  "uses": ["company-legal-name", "legal-contact-email", "product-name"],
+  "questions": [
+    {
+      "id": "ai-agreement",
+      "label": "Underlying agreement",
+      "ask": "Which agreement does the AI Addendum amend?",
+      "type": "choice",
+      "options": [
+        "Our online Terms of Service",
+        "Signed customer agreements",
+        "Both"
+      ],
+      "fills": "Cover: Agreement. Customer and signature block use the clickthrough model: Customer is the company or person who accepts this AI Addendum, effective on the date Customer first accepts.",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "ai-features",
+      "label": "AI features",
+      "ask": "What do the product's AI features do?",
+      "type": "multi",
+      "options": [
+        "Generate text or code from prompts",
+        "Summarize or classify customer content",
+        "An assistant or agent that takes actions",
+        "Search or recommendations"
+      ],
+      "fills": "Template fit and AI Acceptable Use Policy scope",
+      "codebase": "LLM SDK imports (OpenAI, Anthropic, Vercel AI SDK), prompt templates, tool definitions.",
+      "legal_choice": false
+    },
+    {
+      "id": "ai-training-data",
+      "label": "Training data",
+      "ask": "Which customer data may you use to train models?",
+      "type": "multi",
+      "options": ["None", "Usage Data", "Feedback", "Input and Output"],
+      "fills": "Cover: Training Data (must agree with the terms model-training fact)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "ai-training-purpose",
+      "label": "Training purpose",
+      "ask": "If training is allowed, who may the trained models serve?",
+      "type": "choice",
+      "options": ["No training", "Only this customer", "All customers"],
+      "fills": "Cover: Training Purposes",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "ai-training-restrictions",
+      "label": "Before training",
+      "ask": "What must happen to data before it is used for training?",
+      "type": "multi",
+      "options": [
+        "Aggregate it",
+        "De-identify it",
+        "Commercially reasonable de-identification",
+        "No extra steps, or no training"
+      ],
+      "fills": "Cover: Training Restrictions ('None' when no extra steps)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "ai-improvement-restrictions",
+      "label": "Product improvement",
+      "ask": "What limits apply when you use Input and Output to improve the product (not models)?",
+      "type": "multi",
+      "options": [
+        "Nothing may identify the customer",
+        "Improvements from a customer's data only benefit that customer",
+        "No limits"
+      ],
+      "fills": "Cover: Improvement Restrictions ('None' when no limits)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "ai-covered-claims",
+      "label": "AI indemnities",
+      "ask": "Who defends against claims about AI Input or Output?",
+      "type": "choice",
+      "options": [
+        "No AI-specific indemnities",
+        "We cover claims that Output infringes (standard wording)",
+        "We cover Output claims; the customer covers Input claims"
+      ],
+      "fills": "Cover: Covered Claims (delete the row when none)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "ai-use-policy",
+      "label": "AI use policy",
+      "ask": "Which rules govern how users interact with the AI features?",
+      "type": "choice",
+      "options": [
+        "Our Acceptable Use Policy",
+        "A separate AI use policy (give the URL)",
+        "No use policy"
+      ],
+      "fills": "Cover: AI Acceptable Use Policy (delete the row when none)",
+      "codebase": "Existing acceptable use or AI policy pages.",
+      "legal_choice": false
+    }
+  ]
+}

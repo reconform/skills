@@ -1,3 +1,15 @@
+# 2.0.0
+
+Plan first: pick documents from a catalog, have a read-only sub-agent propose
+answers from the codebase, then run a structured 6-12 question interview per
+document. The approved plan is the fact confirmation. Adds ten openly licensed
+templates (cookie policy, acceptable use, refunds, SLA, mutual NDA, BAA, AI
+addendum, professional services, pilot, software license). The helper looks
+documents up in the catalog and refuses unusable drafts: template blanks,
+drafting notes, checkboxes, source-business names, or missing sections. Adds
+`check`. Unanswered questions are resolved with the founder instead of being
+left in `review.md`.
+
 # 1.2.0
 
 Work from `.reconform/context.json` written by the Reconform CLI. Save the terms

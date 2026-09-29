@@ -7,7 +7,7 @@
     "retrieved_at": "2026-09-14",
     "license": "CC-BY-4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/",
-    "attribution": "Adapted from Common Paper Terms of Service 2.1. Changes have been made. Licensed under CC BY 4.0.",
+    "attribution": "Adapted from the Common Paper Terms of Service 2.1 cover page, which uses the Common Paper Cloud Service Agreement Standard Terms 2.1. Changes have been made. Licensed under CC BY 4.0.",
     "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
     "source_files": [
       {
@@ -65,7 +65,7 @@
     "retrieved_at": "2026-09-14",
     "license": "CC-BY-SA-4.0",
     "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-    "attribution": "Adapted from Automattic\u2019s Privacy Policy. Changes have been made. Licensed under CC BY-SA 4.0.",
+    "attribution": "Adapted from Automattic’s Privacy Policy. Changes have been made. Licensed under CC BY-SA 4.0.",
     "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
     "source_files": [
       {
@@ -75,6 +75,276 @@
       {
         "path": "templates/CC-BY-SA-4.0.txt",
         "sha256": "8d98a5c0b2c4d5fbf046b8ef9da2308dd1c1ffcc3c8c97c4da70f6b7d78ebe19"
+      }
+    ]
+  },
+  {
+    "id": "automattic-cookie",
+    "version": "2026-09-25",
+    "source_url": "https://github.com/Automattic/legalmattic/blob/2f412dc4995bbec73504d077a04198a94ddd3c90/Cookie-Policy.md",
+    "source_revision": "2f412dc4995bbec73504d077a04198a94ddd3c90",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-SA-4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "attribution": "Adapted from Automattic’s Cookie Policy. Changes have been made. Licensed under CC BY-SA 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/cookie.md",
+        "sha256": "030dc86b502b746d931ef1b89137feab4f1796bb14ba173ce86f7b6563f94207"
+      },
+      {
+        "path": "templates/CC-BY-SA-4.0.txt",
+        "sha256": "8d98a5c0b2c4d5fbf046b8ef9da2308dd1c1ffcc3c8c97c4da70f6b7d78ebe19"
+      }
+    ]
+  },
+  {
+    "id": "basecamp-aup",
+    "version": "2021-03-04",
+    "source_url": "https://github.com/basecamp/policies/blob/7313dbcde1d43265237d1e5bdd1be9edd44f415b/abuse/index.md",
+    "source_revision": "7313dbcde1d43265237d1e5bdd1be9edd44f415b",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from the Basecamp Use Restrictions Policy by 37signals (Basecamp). Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/aup.md",
+        "sha256": "9ac04553cdad6053abebd96f08c26c475d172bd34929fc28cfe8b7c20b5287ee"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "basecamp-refund",
+    "version": "2023-07-27",
+    "source_url": "https://github.com/basecamp/policies/blob/d39f6f17bbd90d82b1df9fa7a0df845edd487de0/refund/index.md",
+    "source_revision": "d39f6f17bbd90d82b1df9fa7a0df845edd487de0",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from the 37signals Refund and Cancellation policies. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/refund.md",
+        "sha256": "23988a654cd12510585fafc5d2de2b57b61e72d8150cb832f407b3a2e686ea65"
+      },
+      {
+        "path": "templates/refund-cancellation.md",
+        "sha256": "e1fa8d8fbee7810699da90fc6a72cc8054f765ad26cd8a9cef3dfd4498791981"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-sla",
+    "version": "2.0",
+    "source_url": "https://commonpaper.com/standards/service-level-agreement/",
+    "source_revision": "2a5d1e53497f1beaa32b0cc0038c9a47469d5416",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper SLA 2.0. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/sla-cover.md",
+        "sha256": "94d4da547dc601932209b3b87dc5f8a5c28fda774c9812a419ffb5818469f28a"
+      },
+      {
+        "path": "templates/sla-cover-source.docx",
+        "sha256": "c7fc8bdf60cee2b49a8afa0888b12e75f9fe2ffbd60c74d55b2764d9def699fe"
+      },
+      {
+        "path": "templates/sla.md",
+        "sha256": "6dd783192c644bdc1f00849d27e294578af11cd06148c7b566805ebef38f026a"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-nda",
+    "version": "1.0",
+    "source_url": "https://commonpaper.com/standards/mutual-nda/",
+    "source_revision": "2a3068b6c0ab6015c440f541d5b215bc3ac2f4cb",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper Mutual NDA 1.0. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B; US-state governing law by default; confirm fit before adapting.",
+    "source_files": [
+      {
+        "path": "templates/nda-cover.md",
+        "sha256": "2eaaba66379a9c9ec13519d35c1b5a9a6582f1b6497d65f3a1d4996044fb3950"
+      },
+      {
+        "path": "templates/nda-cover-source.docx",
+        "sha256": "68a65153fcdc00887d100991d762c907ebd54df8f7a5d3c0a01618c740480235"
+      },
+      {
+        "path": "templates/nda.md",
+        "sha256": "51accb97035821280371ff3088871e3866927ef0ce60e64ed5244883f11b6cfe"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-baa",
+    "version": "1.0",
+    "source_url": "https://commonpaper.com/standards/business-associate-agreement/",
+    "source_revision": "740476f331b4a65480bd5ec8ce99ffd0c31f11d3",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper Business Associate Agreement 1.0. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "US HIPAA business associate relationships for B2B SaaS; regulated, have counsel review before use.",
+    "source_files": [
+      {
+        "path": "templates/baa-cover.md",
+        "sha256": "45ef7e983560edc7022e6cc090eb911fc04226d9ed3bd6a77fe58360a0366a82"
+      },
+      {
+        "path": "templates/baa-cover-source.docx",
+        "sha256": "d493f129597152164b192a0f3c116e2c0f33719cdb8b1b230deedef46392c0dc"
+      },
+      {
+        "path": "templates/baa.md",
+        "sha256": "2f8f61068ea5284a7cc8857c3fa049ec10a12bed83aa93ed27991f917f338a8c"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-ai-addendum",
+    "version": "1.0",
+    "source_url": "https://commonpaper.com/standards/ai-addendum/",
+    "source_revision": "6d9b044df73a2477c177e5989fca7f8d27df9387",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper AI Addendum 1.0. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "Addendum to a Common Paper CSA or Software License Agreement for B2B products with AI features; confirm fit before adapting.",
+    "source_files": [
+      {
+        "path": "templates/ai-addendum-cover.md",
+        "sha256": "2a621a97252134c2dbb6ee1c7714c28d817fdb47c68577a27d482b9ef6b22a80"
+      },
+      {
+        "path": "templates/ai-addendum-source.docx",
+        "sha256": "1745ce987355a3e21a9ffeb0887e579f39dfd9b058880c6e637aff4fb3195e0e"
+      },
+      {
+        "path": "templates/ai-addendum.md",
+        "sha256": "49d44a8ef0d5b0cadfc75abda509683d30e6a45af4ab29c6304a1e1a4d544be7"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-psa",
+    "version": "1.1",
+    "source_url": "https://commonpaper.com/standards/professional-services-agreement/",
+    "source_revision": "0c3f3647790c33efb839bf1f701e8ef8d1c92235",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper Professional Services Agreement 1.1. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B professional services; confirm fit before adapting.",
+    "source_files": [
+      {
+        "path": "templates/psa-cover.md",
+        "sha256": "606ff67426ca6a54eb484a25bbd4bbff1d35611b713d98e31367dfbabb54f3c9"
+      },
+      {
+        "path": "templates/psa-cover-source.docx",
+        "sha256": "fd6eb30f785a58f627634acb13f0601d19a82ab8e956f12f66cb502ddac026f6"
+      },
+      {
+        "path": "templates/psa.md",
+        "sha256": "cc11a7dd556e0c1512aed33516dd9d283e5db276e55123a142706ef3ec7f0f1e"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-pilot",
+    "version": "1.1",
+    "source_url": "https://commonpaper.com/standards/pilot-agreement/",
+    "source_revision": "e55faf4efe9b277ab02d44d274c5152d901a1d3c",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper Pilot Agreement 1.1. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B SaaS; confirm fit and actual practices before adapting.",
+    "source_files": [
+      {
+        "path": "templates/pilot-cover.md",
+        "sha256": "92d0e03dc89fb59d8afb571d106a9ca4778fd10fa48c9a670f2a66198e46e0c2"
+      },
+      {
+        "path": "templates/pilot-cover-source.docx",
+        "sha256": "a6e57fac82cff6d6bab58e3ebac0fb1a13264ae857e6df85964d058d9d64e0e8"
+      },
+      {
+        "path": "templates/pilot.md",
+        "sha256": "a7cf8decf157093a0d0acd1f35668980c7667e06de6aae3798b996397752b0c3"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+      }
+    ]
+  },
+  {
+    "id": "common-paper-software-license",
+    "version": "1.1",
+    "source_url": "https://commonpaper.com/standards/software-license-agreement/",
+    "source_revision": "8ea7de38148a8a0c235b7aaf31487028c2e519ca",
+    "retrieved_at": "2026-09-25",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution": "Adapted from Common Paper Software License Agreement 1.1. Changes have been made. Licensed under CC BY 4.0.",
+    "intended_use": "English-language B2B on-premises or self-hosted software licensing; confirm fit before adapting.",
+    "source_files": [
+      {
+        "path": "templates/software-license-cover.md",
+        "sha256": "55b6e348315f49171307b09ac10608755fec5bf82d8c3eab0d93e12beb56f05a"
+      },
+      {
+        "path": "templates/software-license-cover-source.docx",
+        "sha256": "5d24c67d115b07f4277e1b81adb488a9dae74eff3ff4a2d2b483e3e8cef81a92"
+      },
+      {
+        "path": "templates/software-license.md",
+        "sha256": "808bc3662d7e65b9d52ae3b76cf0a0b71a4c5be2e41191871b37453895840365"
+      },
+      {
+        "path": "templates/CC-BY-4.0.txt",
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
       }
     ]
   }

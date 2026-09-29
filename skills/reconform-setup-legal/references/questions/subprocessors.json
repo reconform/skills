@@ -1,0 +1,82 @@
+{
+  "document": "subprocessors",
+  "uses": ["company-legal-name", "legal-contact-email", "website-url"],
+  "questions": [
+    {
+      "id": "vendor-list",
+      "label": "Vendors",
+      "ask": "Which outside companies store or process your customers' personal data?",
+      "type": "text",
+      "example": "Vercel, Supabase, Stripe, Resend, PostHog",
+      "fills": "Workspace subprocessors (names)",
+      "codebase": "SDK imports and API clients actually called at runtime, env variable names (STRIPE_SECRET_KEY, RESEND_API_KEY), deployment config. A package in package.json that is never called is not a vendor.",
+      "legal_choice": false
+    },
+    {
+      "id": "vendor-purposes",
+      "label": "What each vendor does",
+      "ask": "For each vendor, what does it do for you and which personal data does it get?",
+      "type": "text",
+      "example": "Stripe: payments, gets name, email and billing details",
+      "fills": "Workspace subprocessors: purpose and data_categories",
+      "codebase": "Call sites for each vendor SDK, showing which fields are sent.",
+      "legal_choice": false
+    },
+    {
+      "id": "vendor-locations",
+      "label": "Vendor regions",
+      "ask": "Where does each vendor process the data?",
+      "type": "choice",
+      "options": [
+        "All in the United States",
+        "All in the European Union",
+        "Mixed (type per vendor)"
+      ],
+      "fills": "Workspace subprocessors: processing_locations",
+      "codebase": "Region settings in vendor config (Supabase project region, Vercel function region, AWS region).",
+      "legal_choice": false
+    },
+    {
+      "id": "subprocessor-page-url",
+      "label": "Subprocessor page",
+      "ask": "Where will the subprocessor list be published?",
+      "type": "choice",
+      "options": [
+        "Hosted by Reconform",
+        "On our website at /subprocessors",
+        "On our website at /legal/subprocessors"
+      ],
+      "fills": "DPA cover: List of Subprocessors URL",
+      "codebase": "Existing routes named subprocessors or legal.",
+      "legal_choice": false
+    },
+    {
+      "id": "subprocessor-change-notice",
+      "label": "Notice of new vendors",
+      "ask": "How much notice will customers get before you add a new subprocessor?",
+      "type": "choice",
+      "options": [
+        "30 days by email and on the page",
+        "14 days by email and on the page",
+        "Page update only, no email"
+      ],
+      "fills": "Subprocessor page introduction; must match DPA Section 4 notice",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "subprocessor-objection",
+      "label": "Objections",
+      "ask": "What can a customer do if they object to a new subprocessor?",
+      "type": "choice",
+      "options": [
+        "Object in writing; if unresolved, terminate and get a pro-rated refund",
+        "Object in writing; we work together on an alternative",
+        "No objection right"
+      ],
+      "fills": "Subprocessor page introduction; must match DPA Section 4",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

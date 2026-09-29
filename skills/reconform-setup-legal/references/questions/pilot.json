@@ -1,0 +1,98 @@
+{
+  "document": "pilot",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "product-description",
+    "governing-law"
+  ],
+  "questions": [
+    {
+      "id": "pilot-period",
+      "label": "Pilot length",
+      "ask": "How long does a pilot last?",
+      "type": "choice",
+      "options": ["30 days", "60 days", "90 days", "6 months"],
+      "fills": "Order Form: Pilot Period. Product uses product-description. Effective Date and Customer use the clickthrough model: Customer is the company or person who accepts this agreement and the effective date is the date Customer first accepts (clickthrough model).",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "pilot-fees",
+      "label": "Pilot fees",
+      "ask": "Do customers pay for a pilot?",
+      "type": "choice",
+      "options": [
+        "Free pilot",
+        "Flat fee (type the amount)",
+        "Discounted subscription (type the price)"
+      ],
+      "fills": "Order Form: Fees",
+      "codebase": "Trial settings in billing code (trial_period_days).",
+      "legal_choice": false
+    },
+    {
+      "id": "pilot-payment",
+      "label": "Payment",
+      "ask": "How is a paid pilot billed?",
+      "type": "choice",
+      "options": [
+        "Invoiced, due in 30 days",
+        "Card charged once for the pilot",
+        "Free pilot, no payment"
+      ],
+      "fills": "Order Form: Payment Process (delete when free)",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "pilot-liability-cap",
+      "label": "Liability cap",
+      "ask": "What is the most either side can owe for a claim during the pilot?",
+      "type": "choice",
+      "options": ["$1,000", "$10,000", "Greater of $5,000 or 1x fees paid"],
+      "fills": "Order Form: General Cap Amount",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "pilot-support",
+      "label": "Pilot support",
+      "ask": "What support do pilot customers get?",
+      "type": "choice",
+      "options": [
+        "Email support",
+        "A shared Slack channel",
+        "A named contact and weekly check-ins",
+        "No committed support"
+      ],
+      "fills": "Order Form: Technical Support (delete when none)",
+      "codebase": "Intercom, Crisp or Zendesk widgets; support email in config.",
+      "legal_choice": false
+    },
+    {
+      "id": "pilot-dpa",
+      "label": "Data protection",
+      "ask": "Will pilot customers put personal data into the product?",
+      "type": "choice",
+      "options": ["Yes, our DPA applies", "No personal data during the pilot"],
+      "fills": "Order Form: DPA (link the published DPA, or delete the row)",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "pilot-conversion",
+      "label": "After the pilot",
+      "ask": "What happens when the pilot ends?",
+      "type": "choice",
+      "options": [
+        "It ends; a paid plan needs a new order",
+        "It converts to a paid subscription unless cancelled"
+      ],
+      "fills": "Order Form: Other Changes to Standard Terms ('None' when it just ends)",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

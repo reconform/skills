@@ -1,0 +1,142 @@
+{
+  "document": "refund",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "website-url",
+    "backup-retention",
+    "legal-pages-url"
+  ],
+  "questions": [
+    {
+      "id": "refund-missed-cancellation",
+      "label": "Missed cancellation",
+      "ask": "A customer meant to cancel but was charged again. What do you refund?",
+      "type": "choice",
+      "options": [
+        "The latest charge, if the account wasn't used",
+        "Up to three unused months",
+        "Nothing"
+      ],
+      "fills": "Refund: Examples of full refunds (must agree with the terms refunds fact)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "refund-annual",
+      "label": "Annual plans",
+      "ask": "What happens when an annual customer asks for a refund partway through?",
+      "type": "choice",
+      "options": [
+        "Refund within 30 days of the annual charge, none after",
+        "Pro-rated refund of unused whole months",
+        "No refunds on annual plans",
+        "We don't sell annual plans"
+      ],
+      "fills": "Refund: Examples of partial refunds",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "refund-downgrade",
+      "label": "Downgrades",
+      "ask": "When a customer downgrades mid-period, what do they get?",
+      "type": "choice",
+      "options": [
+        "Pro-rated credit toward future bills",
+        "Nothing; the lower price starts at renewal"
+      ],
+      "fills": "Refund: Examples of partial refunds",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "refund-service-credits",
+      "label": "Downtime and slow support",
+      "ask": "Do you give credits for long outages or slow support replies?",
+      "type": "choice",
+      "options": [
+        "Case by case credits",
+        "Only the credits in our SLA",
+        "No credits"
+      ],
+      "fills": "Refund: Examples of partial refunds (outage entry)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "refund-request-channel",
+      "label": "How to ask for a refund",
+      "ask": "How do customers ask for a refund?",
+      "type": "choice",
+      "options": [
+        "Email support",
+        "Billing page in the app",
+        "Contact form on the website"
+      ],
+      "fills": "Refund: Get in touch (replaces {{ site.email_support }})",
+      "codebase": "Support email in config, billing or contact routes.",
+      "follow_up": "Ask for the address or URL.",
+      "legal_choice": false
+    },
+    {
+      "id": "cancellation-method",
+      "label": "How to cancel",
+      "ask": "How do customers cancel?",
+      "type": "choice",
+      "options": [
+        "Self-serve in the app's billing settings",
+        "Email support",
+        "Through the app store or reseller that bills them"
+      ],
+      "fills": "Cancellation policy: cancellation steps (replaces the per-product list)",
+      "codebase": "Cancel flow, Stripe customer portal or billing settings page.",
+      "legal_choice": false
+    },
+    {
+      "id": "cancellation-authority",
+      "label": "Who can cancel",
+      "ask": "Who can cancel an account?",
+      "type": "choice",
+      "options": [
+        "Account owner only",
+        "Owner or any admin",
+        "Owner, admins or the billing contact"
+      ],
+      "fills": "Cancellation policy: who may cancel",
+      "codebase": "Role checks on billing and cancellation routes.",
+      "legal_choice": false
+    },
+    {
+      "id": "cancellation-content-deletion",
+      "label": "Content after cancellation",
+      "ask": "After cancellation, when is the account's content deleted from live systems?",
+      "type": "choice",
+      "options": [
+        "30 days after cancellation",
+        "60 days after cancellation",
+        "Immediately",
+        "Only when the customer asks"
+      ],
+      "fills": "Cancellation policy: What happens when you cancel (backups follow backup-retention)",
+      "codebase": "Account or workspace deletion jobs and their schedules.",
+      "legal_choice": false
+    },
+    {
+      "id": "inactive-account-closure",
+      "label": "Accounts you close",
+      "ask": "When do you close accounts yourself?",
+      "type": "multi",
+      "options": [
+        "Expired trials after 30 days",
+        "Unpaid accounts 180 days after billing fails",
+        "Free accounts after a year of inactivity",
+        "Accounts that break the acceptable use policy"
+      ],
+      "fills": "Cancellation policy: company-initiated cancellations (replaces the 37signals section)",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

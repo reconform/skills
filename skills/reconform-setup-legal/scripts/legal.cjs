@@ -21554,7 +21554,6 @@ function checkReadback(expected, actual) {
     );
   return sha(actual);
 }
-var Kind = external_exports.enum(["terms", "privacy", "dpa"]);
 var Training = external_exports.enum(["prohibited", "permitted"]);
 var ClauseReviews = external_exports.record(
   external_exports.string().regex(/^\d+(?:\.\d+)*(?:\([a-z]\))?$/),
@@ -21573,10 +21572,41 @@ var ClauseReviews = external_exports.record(
   (value) => Object.keys(value).length <= 30,
   "At most 30 clause reviews are supported."
 );
-function amendments(input2) {
-  if (input2.kind === "privacy") return "";
+var CatalogEntry = external_exports.object({
+  id: external_exports.string(),
+  name: external_exports.string(),
+  api_kind: external_exports.enum(["terms", "privacy", "dpa", "cookie", "custom"]),
+  template: external_exports.string().nullable(),
+  mode: external_exports.enum(["cover+standard", "adapted-body", "app-generated"]),
+  standard: external_exports.string().nullable(),
+  questions: external_exports.string(),
+  required_sections: external_exports.array(external_exports.string()),
+  source_terms: external_exports.array(external_exports.string())
+});
+async function catalogEntry(kind, references) {
+  const entry = external_exports.array(CatalogEntry).parse(
+    JSON.parse(await (0, import_promises.readFile)((0, import_node_path.resolve)(references, "catalog.json"), "utf8"))
+  ).find((item) => item.id === kind);
+  if (!entry)
+    throw new Error(
+      `Unknown document kind: ${kind}. Use a catalog id, or reconform-create-document for documents without a template.`
+    );
+  if (entry.mode === "app-generated")
+    throw new Error(
+      `${entry.name} is generated in the Reconform app from the saved workspace vendors.`
+    );
+  const questions = JSON.parse(
+    await (0, import_promises.readFile)((0, import_node_path.resolve)(references, entry.questions), "utf8")
+  );
+  return {
+    ...entry,
+    required_reviews: Object.keys(questions.clause_reviews ?? {})
+  };
+}
+function amendments(input2, required2) {
+  if (!required2.length && input2.clause_reviews === void 0) return "";
   const reviews = ClauseReviews.parse(input2.clause_reviews);
-  for (const clause of input2.kind === "terms" ? ["1.4", "5.5(b)", "5.6(b)"] : ["5.2", "6"]) {
+  for (const clause of required2) {
     if (!Object.hasOwn(reviews, clause))
       throw new Error(
         `Review Section ${clause} explicitly: keep with a factual reason, or amend with actual wording.`
@@ -21584,18 +21614,14 @@ function amendments(input2) {
   }
   if (input2.kind === "terms" && Object.hasOwn(reviews, "1.6"))
     throw new Error("Use model_training to select the Section 1.6 policy.");
-  return Object.entries(reviews).filter(([, review]) => review.decision === "amend").map(
-    ([clause, review]) => `
+  return Object.entries(reviews).filter(([, review]) => review.decision === "amend").map(([clause, review]) => `
 
-### Amendment to Section ${clause}
+### Section ${clause}
 
-This cover-page amendment controls over conflicting language in Section ${clause}.
-
-${review.text}`
-  ).join("");
+${review.text}`).join("");
 }
 async function template(kind, references) {
-  Kind.parse(kind);
+  const document = await catalogEntry(kind, references);
   const entries = external_exports.array(
     external_exports.object({
       id: external_exports.string(),
@@ -21613,23 +21639,15 @@ async function template(kind, references) {
   ).parse(
     JSON.parse(await (0, import_promises.readFile)((0, import_node_path.resolve)(references, "templates.json"), "utf8"))
   );
-  const entry = entries.find(
-    (item) => item.id === (kind === "privacy" ? "automattic-privacy" : `common-paper-${kind}`)
-  );
-  if (!entry) throw new Error(`Missing template: ${kind}`);
+  const entry = entries.find((item) => item.id === document.template);
+  if (!entry) throw new Error(`Missing template: ${document.template}`);
   for (const file2 of entry.source_files)
     if (sha(await (0, import_promises.readFile)((0, import_node_path.resolve)(references, file2.path))) !== file2.sha256)
       throw new Error(`Template checksum mismatch: ${file2.path}`);
-  const standard = kind === "privacy" ? null : standardMarkdown(
-    await (0, import_promises.readFile)(
-      (0, import_node_path.resolve)(
-        references,
-        `templates/${kind === "terms" ? "csa" : "dpa"}.md`
-      ),
-      "utf8"
-    )
-  ).trim();
-  return { ...entry, standard };
+  const standard = document.standard ? standardMarkdown(
+    await (0, import_promises.readFile)((0, import_node_path.resolve)(references, document.standard), "utf8")
+  ).trim() : null;
+  return { ...entry, document, standard };
 }
 async function assembleDocument(input2, references) {
   const entry = await template(input2.kind, references);
@@ -21642,9 +21660,9 @@ async function assembleDocument(input2, references) {
     throw new Error(
       "terms require a confirmed model_training choice: prohibited or permitted"
     );
-  const override = input2.kind === "terms" && input2.model_training === "prohibited" ? `
+  const training = input2.kind === "terms" && input2.model_training === "prohibited" ? `
 
-## Changes to the standard terms
+### Section 1.6 (Machine Learning)
 
 ${noTraining}` : "";
   const standard = entry.standard ? `
@@ -21660,10 +21678,12 @@ ${entry.attribution}
 
 [Source](${entry.source_url}) \xB7 [License](${entry.license_url})
 `;
-  const changes = amendments(input2);
-  const markdown = body + (changes ? `
+  const changes = amendments(input2, entry.document.required_reviews);
+  const markdown = body + (training || changes ? `
 
-## Agreed amendments${changes}` : "") + override + standard + notice;
+## Changes to the Standard Terms
+
+These changes are part of the Cover Page and control over conflicting language in the Standard Terms.${training}${changes}` : "") + standard + notice;
   CreateDraftSchema.parse({ content_md: markdown });
   validateMarkdown(markdown);
   return markdown;
@@ -21681,32 +21701,74 @@ async function checkDocument(spec, markdown, references) {
     if (spec.model_training === "prohibited" && !markdown.includes(noTraining))
       throw new Error("Missing no-training cover override.");
   }
-  const changes = amendments(spec);
+  const changes = amendments(spec, entry.document.required_reviews);
   if (changes && !markdown.includes(changes))
     throw new Error("A declared cover amendment is missing or changed.");
   CreateDraftSchema.parse({ content_md: markdown });
   validateMarkdown(markdown);
   return sha(markdown);
 }
+var placeholderPatterns = [
+  [/\[\[[^\]]*\]\]/g, "double-bracket field"],
+  [/(?<!\])\[[^\]\n]*\](?![(:[])/g, "bracketed blank or checkbox"],
+  [/<!--/g, "HTML comment or drafting note"],
+  [/drafting note/gi, "drafting note"],
+  [/\{\{[^}]*\}\}/g, "template variable"],
+  [/\b(?:TBD|TODO|FIXME|XXX)\b/g, "unfinished marker"],
+  [/_{3,}/g, "fill-in line"],
+  [/\(\s+\)/g, "empty radio choice"]
+];
+function findPlaceholders(markdown) {
+  const found = [];
+  markdown.split("\n").forEach((line, index) => {
+    for (const [pattern, label] of placeholderPatterns)
+      for (const match of line.matchAll(pattern))
+        found.push(`line ${index + 1}: ${label} ${JSON.stringify(match[0])}`);
+  });
+  return found;
+}
+var heading = (line) => line.replace(/^\s*#+\s*/, "").replace(/[*_]/g, "").trim().toLowerCase();
+async function checkUsable(spec, markdown, references) {
+  const problems = [];
+  let authored = markdown;
+  if (spec) {
+    const entry = await template(spec.kind, references);
+    if (entry.standard) authored = authored.replace(entry.standard, "");
+    const license = authored.lastIndexOf("\n## License and source\n");
+    const body = license === -1 ? authored : authored.slice(0, license);
+    const escape = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    for (const term of entry.document.source_terms)
+      if (new RegExp(`(?<![\\w.])${escape(term)}(?![\\w])`).test(body))
+        problems.push(
+          `source template name "${term}" remains; adapt the text to this business`
+        );
+    const lines = markdown.split("\n").map(heading);
+    for (const section of entry.document.required_sections)
+      if (!lines.some((line) => line.startsWith(section.toLowerCase())))
+        problems.push(`missing required section "${section}"`);
+  }
+  problems.push(...findPlaceholders(authored));
+  if (problems.length)
+    throw new Error(
+      `Not usable yet. Ask the customer for the missing answers or propose a default they confirm, then fix the authored file:
+- ${problems.join("\n- ")}`
+    );
+  return { status: "usable", sha256: sha(markdown) };
+}
 var specFields = {
   name: CreateDocumentSchema.shape.name,
   slug: CreateDocumentSchema.shape.slug,
   body_file: external_exports.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]*\.md$/)
 };
-var Spec = external_exports.discriminatedUnion("kind", [
-  external_exports.object({
-    ...specFields,
-    kind: external_exports.literal("terms"),
-    model_training: Training,
-    clause_reviews: ClauseReviews
-  }).strict(),
-  external_exports.object({ ...specFields, kind: external_exports.literal("privacy") }).strict(),
-  external_exports.object({
-    ...specFields,
-    kind: external_exports.literal("dpa"),
-    clause_reviews: ClauseReviews
-  }).strict()
-]);
+var Spec = external_exports.object({
+  ...specFields,
+  kind: external_exports.string().regex(/^[a-z][a-z0-9-]*$/),
+  model_training: Training.optional(),
+  clause_reviews: ClauseReviews.optional()
+}).strict().refine(
+  (spec) => spec.kind === "terms" === (spec.model_training !== void 0),
+  "Only terms specs set model_training, and terms specs must set it."
+);
 var Context = external_exports.object({
   format: external_exports.literal("reconform-document-context"),
   version: external_exports.literal(1),
@@ -21871,6 +21933,7 @@ async function findDocument(c, slug) {
 }
 async function saveDraft(options, spec, markdown, references) {
   await checkDocument(spec, markdown, references);
+  const apiKind = (await catalogEntry(spec.kind, references)).api_kind;
   const c = await client(options);
   if (c.state.pending && ![
     `document:${spec.slug}`,
@@ -21890,7 +21953,7 @@ async function saveDraft(options, spec, markdown, references) {
         CreateDocumentSchema.parse({
           name: spec.name,
           slug: spec.slug,
-          kind: spec.kind,
+          kind: apiKind,
           locale: "en"
         }),
         DocumentSchema,
@@ -21901,7 +21964,7 @@ async function saveDraft(options, spec, markdown, references) {
     } catch (error62) {
       if (error62.status !== 409) throw error62;
       const existing = await findDocument(c, spec.slug);
-      if (!existing || existing.kind !== spec.kind || existing.archived_at !== null)
+      if (!existing || existing.kind !== apiKind || existing.archived_at !== null)
         throw error62;
       c.state.documents[spec.slug] = { document_id: existing.id };
       await c.persist();
@@ -21915,7 +21978,7 @@ async function saveDraft(options, spec, markdown, references) {
   const document = c.identity(
     DocumentSchema.parse(await c.request(`/documents/${entry.document_id}`))
   );
-  if (document.kind !== spec.kind || document.slug !== spec.slug || document.archived_at !== null)
+  if (document.kind !== apiKind || document.slug !== spec.slug || document.archived_at !== null)
     throw new Error(
       "Document identity/settings no longer match the draft specification."
     );
@@ -21930,7 +21993,7 @@ async function saveDraft(options, spec, markdown, references) {
     );
   const desired = CreateDraftSchema.parse({
     content_md: markdown,
-    change_summary: `Prepared with reconform-setup-legal 1.2.0 (${spec.kind})`
+    change_summary: `Prepared with reconform-setup-legal 2.0.0 (${spec.kind})`
   });
   if (version2?.status === "draft") {
     if (c.state.pending && c.state.pending.label !== `update:${spec.slug}`)
@@ -22135,7 +22198,12 @@ async function main(args = process.argv.slice(2)) {
       sha256: sha(JSON.stringify(readback))
     };
   }
-  if (command === "assemble" || command === "save-draft" || command === "publish-test") {
+  if (command === "check" && !o.spec) {
+    if (!o.file)
+      throw new Error("Pass --file, or --spec for a catalog document.");
+    return checkUsable(null, await (0, import_promises.readFile)((0, import_node_path.resolve)(o.file), "utf8"));
+  }
+  if (command === "check" || command === "assemble" || command === "save-draft" || command === "publish-test") {
     const specFile = (0, import_node_path.resolve)(o.spec);
     const spec = Spec.parse(await json2(specFile));
     const body = await (0, import_promises.readFile)(
@@ -22150,6 +22218,9 @@ async function main(args = process.argv.slice(2)) {
       );
     if (command === "assemble") {
       await (0, import_promises.writeFile)(output2, markdown);
+      await checkUsable(spec, markdown, references).catch((error62) => {
+        throw new Error(`Wrote ${output2}. ${error62.message}`);
+      });
       return {
         status: "assembled",
         file: output2,
@@ -22158,10 +22229,15 @@ async function main(args = process.argv.slice(2)) {
       };
     }
     checkReadback(markdown, await (0, import_promises.readFile)(output2, "utf8"));
+    await checkUsable(spec, markdown, references);
+    if (command === "check") {
+      await checkDocument(spec, markdown, references);
+      return { status: "usable", file: output2, sha256: sha(markdown) };
+    }
     return command === "publish-test" ? publishTest(o, spec, markdown) : saveDraft(o, spec, markdown, references);
   }
   throw new Error(
-    "Commands: validate-workspace --file; assemble --spec; read-workspace --context --state [--file]; save-workspace --file --context --state --expected-revision; save-draft --spec --context --state [--expected-revision]; publish-test --spec --context --state --confirmed. Local API use also requires --allow-local. Node 20+ required."
+    "Commands: validate-workspace --file; assemble --spec; check --spec | --file; read-workspace --context --state [--file]; save-workspace --file --context --state --expected-revision; save-draft --spec --context --state [--expected-revision]; publish-test --spec --context --state --confirmed. Local API use also requires --allow-local. Node 20+ required."
   );
 }
 

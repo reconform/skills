@@ -1,0 +1,134 @@
+{
+  "document": "baa",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "product-description"
+  ],
+  "questions": [
+    {
+      "id": "baa-phi",
+      "label": "Health data",
+      "ask": "Do customers store protected health information (PHI) in the product?",
+      "type": "choice",
+      "options": [
+        "Yes, patient health information is core to the product",
+        "Only incidentally, such as in support messages",
+        "No"
+      ],
+      "fills": "Template fit. No means a BAA is not needed; say so before drafting.",
+      "codebase": "Schema fields for patients, diagnoses, treatments or insurance IDs.",
+      "legal_choice": false
+    },
+    {
+      "id": "baa-agreement",
+      "label": "Underlying agreement",
+      "ask": "Which agreement does this BAA attach to?",
+      "type": "choice",
+      "options": [
+        "Our online Terms of Service",
+        "Signed customer agreements",
+        "Both"
+      ],
+      "fills": "Cover: Agreement. Company, BAA Effective Date and signature block use the clickthrough model: Company is the company or person who accepts this BAA and the BAA Effective Date is the date Company first accepts.",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "baa-relationship",
+      "label": "Relationship",
+      "ask": "Under HIPAA, what role do your customers usually have?",
+      "type": "choice",
+      "options": [
+        "Covered Entity; we are their Business Associate",
+        "Business Associate; we are their subcontractor"
+      ],
+      "fills": "Cover: Relationship",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "baa-breach-notice",
+      "label": "Breach notice",
+      "ask": "How quickly will you tell a customer about a breach after you find it?",
+      "type": "choice",
+      "options": [
+        "Within 5 business days",
+        "Within 10 business days",
+        "Within 30 calendar days",
+        "Within 60 calendar days (the legal maximum)"
+      ],
+      "fills": "Cover: Breach Notification Period",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "baa-record-set",
+      "label": "Designated Record Set",
+      "ask": "Do you keep PHI that is used to make decisions about patients, such as medical or billing records?",
+      "type": "choice",
+      "options": ["No", "Yes"],
+      "fills": "Cover: Designated Record Set",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "baa-subcontracting",
+      "label": "Subcontracting",
+      "ask": "May you pass PHI to your own vendors?",
+      "type": "choice",
+      "options": [
+        "Yes, as the standard terms allow",
+        "Only after notifying the customer",
+        "Only with the customer's permission",
+        "No"
+      ],
+      "fills": "Cover: Limitations, Subcontracting (delete when standard)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "baa-offshoring",
+      "label": "Offshoring",
+      "ask": "May PHI be stored or handled outside the United States?",
+      "type": "choice",
+      "options": [
+        "Yes, as the standard terms allow",
+        "No",
+        "Only in named countries (type them)"
+      ],
+      "fills": "Cover: Limitations, Offshoring (delete when standard)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "baa-deidentification",
+      "label": "De-identification",
+      "ask": "May you de-identify PHI for your own use?",
+      "type": "choice",
+      "options": [
+        "Yes, as the standard terms allow",
+        "No",
+        "Only for a named purpose (type it)"
+      ],
+      "fills": "Cover: Limitations, De-identification (delete when standard)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "baa-aggregation",
+      "label": "Aggregation",
+      "ask": "May you combine PHI across customers for analysis?",
+      "type": "choice",
+      "options": [
+        "Yes, as the standard terms allow",
+        "No",
+        "Only under stated limits (type them)"
+      ],
+      "fills": "Cover: Limitations, Aggregation (delete when standard; delete Limitations entirely when all are standard). Other Changes: 'None'.",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

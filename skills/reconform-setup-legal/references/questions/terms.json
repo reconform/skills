@@ -1,0 +1,163 @@
+{
+  "document": "terms",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "product-description",
+    "website-url",
+    "customer-audience",
+    "governing-law",
+    "backup-retention",
+    "legal-pages-url"
+  ],
+  "clause_reviews": {
+    "1.4": ["usage-data"],
+    "5.5(b)": ["deletion-after-termination"],
+    "5.6(b)": ["backup-retention"]
+  },
+  "questions": [
+    {
+      "id": "pricing-model",
+      "label": "Pricing model",
+      "ask": "How do customers pay for the product?",
+      "type": "choice",
+      "options": [
+        "Paid subscription plans",
+        "Free plan plus paid plans",
+        "Usage-based pricing",
+        "Free, no paid plans"
+      ],
+      "fills": "Cover: Cloud Service Fees (link the pricing page when prices vary by plan)",
+      "codebase": "Stripe, Paddle, Lemon Squeezy or Chargebee SDK usage, price or plan IDs, a pricing page route.",
+      "legal_choice": false,
+      "follow_up": "If there is a free trial, ask how long it lasts, whether a card is required, and what happens when it ends."
+    },
+    {
+      "id": "billing-period",
+      "label": "Billing period",
+      "ask": "How often are customers billed, and how?",
+      "type": "choice",
+      "options": [
+        "Card charged monthly",
+        "Card charged annually",
+        "Monthly or annual, customer chooses",
+        "Invoiced, payment due in 30 days"
+      ],
+      "fills": "Cover: Subscription Period and Payment Process",
+      "codebase": "Billing interval in price definitions or checkout sessions.",
+      "legal_choice": false
+    },
+    {
+      "id": "renewal-cancellation",
+      "label": "Renewal and cancellation",
+      "ask": "How do renewal and cancellation work?",
+      "type": "choice",
+      "options": [
+        "Renews automatically; cancel anytime, access runs to period end",
+        "Renews automatically; 30 days notice before renewal to cancel",
+        "Does not renew automatically"
+      ],
+      "fills": "Cover: Non-Renewal Notice Period (and an Other Changes entry for no auto-renewal)",
+      "codebase": "Cancel-subscription flow: cancel_at_period_end or immediate cancellation.",
+      "legal_choice": false
+    },
+    {
+      "id": "refunds",
+      "label": "Refunds",
+      "ask": "What is your refund policy?",
+      "type": "choice",
+      "options": [
+        "No refunds for partial periods",
+        "Refund within 14 days of the first payment",
+        "Refund within 30 days of any payment",
+        "Pro-rated refund when the customer cancels"
+      ],
+      "fills": "Cover: Other Changes to Standard Terms when anything other than no refunds",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "support-channel",
+      "label": "Support",
+      "ask": "How do customers get support?",
+      "type": "choice",
+      "options": [
+        "Email support",
+        "In-app chat",
+        "Help center and ticket form",
+        "No committed support"
+      ],
+      "fills": "Cover: Technical Support",
+      "codebase": "Intercom, Crisp, Zendesk, Help Scout or Plain widgets; support email in config.",
+      "follow_up": "Ask for the address or URL when support is offered.",
+      "legal_choice": false
+    },
+    {
+      "id": "model-training",
+      "label": "AI model training",
+      "ask": "May you use customer content or usage data to train or improve AI models?",
+      "type": "choice",
+      "options": ["No, never", "Yes, as the standard terms allow"],
+      "fills": "Spec model_training: prohibited or permitted (controls Section 1.6)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "usage-data",
+      "label": "Usage data",
+      "ask": "May you use aggregated usage data to improve and promote your product, as long as it doesn't identify the customer?",
+      "type": "choice",
+      "options": [
+        "Yes, as the standard terms allow",
+        "Only to operate and improve the product, not to promote it",
+        "No use beyond providing the service"
+      ],
+      "fills": "Clause review 1.4 (keep, or amend with the narrower wording)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "deletion-after-termination",
+      "label": "Deletion after the contract ends",
+      "ask": "When a customer leaves and asks, how quickly do you delete their content?",
+      "type": "choice",
+      "options": [
+        "Within 60 days of the request (standard)",
+        "Within 30 days of the request",
+        "Automatically within 30 days of cancellation, no request needed"
+      ],
+      "fills": "Clause review 5.5(b)",
+      "codebase": "Account or workspace deletion jobs and their schedules.",
+      "legal_choice": false
+    },
+    {
+      "id": "liability-cap",
+      "label": "Liability cap",
+      "ask": "What is the most either side can owe the other for a claim under these terms?",
+      "type": "choice",
+      "options": [
+        "Fees paid in the prior 12 months (standard)",
+        "Greater of $100 or fees paid in the prior 12 months",
+        "2x fees paid in the prior 12 months"
+      ],
+      "fills": "Cover: General Cap Amount",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "terms-changes",
+      "label": "Changing these terms",
+      "ask": "How will you change these terms later?",
+      "type": "choice",
+      "options": [
+        "Customers re-accept each new version in the app before continuing",
+        "Email notice 30 days before changes take effect",
+        "Post the new version; continued use means acceptance"
+      ],
+      "fills": "A changes-to-these-terms clause on the cover page, with the Last Updated date",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

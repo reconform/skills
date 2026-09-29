@@ -1,0 +1,126 @@
+{
+  "document": "cookie",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "website-url",
+    "legal-pages-url"
+  ],
+  "questions": [
+    {
+      "id": "cookie-locations",
+      "label": "Where cookies are set",
+      "ask": "Where does your company set cookies?",
+      "type": "multi",
+      "options": [
+        "Marketing website",
+        "The logged-in web app",
+        "Docs or help center",
+        "A widget or script embedded on customers' sites"
+      ],
+      "fills": "Cookie: Where we place cookies (replaces the Automattic site list)",
+      "codebase": "Domains and subdomains in site config, deployment config and embed scripts.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-essential",
+      "label": "Required cookies",
+      "ask": "What do your essential cookies do?",
+      "type": "multi",
+      "options": [
+        "Keep users signed in",
+        "Remember settings such as language or theme",
+        "Security, such as CSRF and fraud protection",
+        "Load balancing or routing"
+      ],
+      "fills": "Cookie: Types of Cookie (Required) and Examples",
+      "codebase": "Session and auth library config, cookies().set, res.cookie or document.cookie calls, CSRF middleware.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-analytics",
+      "label": "Analytics cookies",
+      "ask": "Which analytics tools set cookies or similar identifiers?",
+      "type": "multi",
+      "options": [
+        "Product analytics (PostHog, Amplitude, Mixpanel)",
+        "Google Analytics",
+        "Cookieless analytics (Plausible, Fathom)",
+        "None"
+      ],
+      "fills": "Cookie: Types of Cookie (Analytics and Performance) and Controlling Cookies opt-out links",
+      "codebase": "Analytics SDK initialization and script tags in the root layout; check whether cookies or localStorage are disabled.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-internal-analytics",
+      "label": "Product event tracking",
+      "ask": "Do you record product events such as page views and clicks tied to a user's account?",
+      "type": "choice",
+      "options": [
+        "Yes, events are linked to the account",
+        "Yes, but only anonymous or aggregated",
+        "No"
+      ],
+      "fills": "Cookie: Our Internal Analytics Tool (adapt or remove)",
+      "codebase": "track(), capture() or identify() calls in analytics code.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-advertising",
+      "label": "Advertising cookies",
+      "ask": "Do you use advertising or retargeting cookies?",
+      "type": "choice",
+      "options": [
+        "No advertising cookies",
+        "Ad and retargeting pixels (Meta, Google Ads, LinkedIn)"
+      ],
+      "fills": "Cookie: Types of Cookie (Advertising); remove the Automattic ads program sections either way",
+      "codebase": "Pixel scripts in page markup or tag manager config.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-third-party",
+      "label": "Other third-party cookies",
+      "ask": "Which other third-party services can set cookies on your pages?",
+      "type": "multi",
+      "options": [
+        "Support chat (Intercom, Crisp)",
+        "Payment checkout (Stripe, Paddle)",
+        "Embedded video (YouTube, Vimeo)",
+        "None"
+      ],
+      "fills": "Cookie: Examples and third-party cookie sections",
+      "codebase": "Widget and embed scripts, checkout redirects, iframe embeds.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-consent",
+      "label": "Cookie consent",
+      "ask": "How do visitors consent to non-essential cookies?",
+      "type": "choice",
+      "options": [
+        "Banner asks first; nothing optional loads until they accept",
+        "Banner with a link to opt out",
+        "No banner; we only use essential cookies"
+      ],
+      "fills": "Cookie: Consent sections and Controlling Cookies",
+      "codebase": "Consent banner component or SDK (Reconform, Cookiebot, OneTrust) and whether scripts wait for consent.",
+      "legal_choice": false
+    },
+    {
+      "id": "cookie-detail",
+      "label": "Level of detail",
+      "ask": "Should the policy list each cookie by name?",
+      "type": "choice",
+      "options": [
+        "List each cookie with its name, provider and purpose",
+        "Describe categories and name the providers only"
+      ],
+      "fills": "Cookie: Examples tables",
+      "codebase": "Cookie names set in code and by the SDKs found above.",
+      "legal_choice": false
+    }
+  ]
+}

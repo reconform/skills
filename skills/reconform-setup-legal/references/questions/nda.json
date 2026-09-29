@@ -1,0 +1,86 @@
+{
+  "document": "nda",
+  "uses": [
+    "company-legal-name",
+    "company-address",
+    "legal-contact-email",
+    "governing-law"
+  ],
+  "questions": [
+    {
+      "id": "nda-purpose",
+      "label": "Purpose",
+      "ask": "What may each side use the other's confidential information for?",
+      "type": "choice",
+      "options": [
+        "Evaluating whether to enter into a business relationship",
+        "Evaluating a purchase or pilot of our product",
+        "Discussing a partnership or integration"
+      ],
+      "fills": "Cover: Purpose",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "nda-term",
+      "label": "NDA term",
+      "ask": "How long can the parties keep sharing information under the NDA?",
+      "type": "choice",
+      "options": [
+        "1 year from the Effective Date",
+        "2 years from the Effective Date",
+        "Until either party ends it"
+      ],
+      "fills": "Cover: MNDA Term",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "nda-confidentiality-period",
+      "label": "Protection period",
+      "ask": "How long must shared information stay confidential?",
+      "type": "choice",
+      "options": ["1 year", "2 years", "3 years", "Forever"],
+      "fills": "Cover: Term of Confidentiality (trade secrets stay protected while they remain trade secrets)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "nda-confidentiality-start",
+      "label": "Protection start",
+      "ask": "When does that protection period start?",
+      "type": "choice",
+      "options": [
+        "From the Effective Date",
+        "From the date of the last disclosure"
+      ],
+      "fills": "Cover: Term of Confidentiality start (skip when protection is forever)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "nda-acceptance",
+      "label": "How the NDA is agreed",
+      "ask": "How will the other side agree to the NDA?",
+      "type": "choice",
+      "options": [
+        "Clickthrough: they accept online and it starts then",
+        "Signed with each party; their details filled in at signing"
+      ],
+      "fills": "Cover: Effective Date, Party 2 and signature block. Clickthrough: Party 2 is the company or person who accepts this MNDA and the Effective Date is the date Party 2 first accepts. Party 1 is company-legal-name with legal-contact-email or company-address as notice address.",
+      "codebase": null,
+      "follow_up": "If signed, ask who signs for the company (name and title).",
+      "legal_choice": false
+    },
+    {
+      "id": "nda-changes",
+      "label": "Changes to the standard terms",
+      "ask": "Do you need any change to the standard NDA terms?",
+      "type": "choice",
+      "options": ["No changes", "Yes (describe the change)"],
+      "fills": "Cover: Changes to Standard Terms ('None' when no changes)",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

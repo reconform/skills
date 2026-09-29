@@ -1,0 +1,176 @@
+{
+  "document": "software-license",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "product-description",
+    "governing-law"
+  ],
+  "questions": [
+    {
+      "id": "software-license-delivery",
+      "label": "How the software is delivered",
+      "ask": "How do customers run the software?",
+      "type": "choice",
+      "options": [
+        "Self-hosted on their servers (Docker, Helm)",
+        "Desktop app",
+        "SDK or library in their own product",
+        "On-premises appliance"
+      ],
+      "fills": "Order Form: Software. Order Date, Framework Terms parties, Effective Date and Customer use the clickthrough model: Customer is the company or person who accepts this agreement and the effective date is the date Customer first accepts (clickthrough model); the Framework Terms are the Key Terms included below.",
+      "codebase": "Dockerfile, Helm charts, desktop build config, published packages.",
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-term",
+      "label": "Subscription period",
+      "ask": "How long is a license term?",
+      "type": "choice",
+      "options": ["12 months", "Month to month", "24 months", "36 months"],
+      "fills": "Order Form: Subscription Period",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-fees",
+      "label": "License fees",
+      "ask": "How are license fees charged?",
+      "type": "choice",
+      "options": [
+        "Annual fee per instance",
+        "Per user per year",
+        "Based on usage"
+      ],
+      "fills": "Order Form: Fees (delete the optional increase and tax rows)",
+      "codebase": "License key or seat-count checks, pricing page.",
+      "follow_up": "Ask for the amounts or link the pricing page.",
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-payment",
+      "label": "Payment",
+      "ask": "How do customers pay?",
+      "type": "choice",
+      "options": [
+        "Invoiced annually, due in 30 days",
+        "Invoiced quarterly, due in 30 days",
+        "Card charged automatically each period"
+      ],
+      "fills": "Order Form: Payment Process",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-renewal",
+      "label": "Renewal",
+      "ask": "How does renewal work?",
+      "type": "choice",
+      "options": [
+        "Renews automatically; 30 days notice to stop it",
+        "Renews automatically; 60 days notice to stop it",
+        "Does not renew automatically"
+      ],
+      "fills": "Order Form: Auto-renewal",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "software-license-permitted-uses",
+      "label": "Permitted uses",
+      "ask": "Who may use the software, and for what?",
+      "type": "choice",
+      "options": [
+        "The customer's internal business purposes",
+        "The customer's and its affiliates' internal business purposes"
+      ],
+      "fills": "Order Form: Permitted Uses",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "software-license-limits",
+      "label": "License limits",
+      "ask": "How is use limited?",
+      "type": "choice",
+      "options": [
+        "Number of named users",
+        "Number of instances or servers",
+        "No limits beyond the standard terms"
+      ],
+      "fills": "Order Form: License Limits",
+      "codebase": "License key, seat or instance checks in the code.",
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-warranty",
+      "label": "Warranty period",
+      "ask": "How long does the software warranty last?",
+      "type": "choice",
+      "options": [
+        "90 days from first delivery",
+        "30 days from delivery of each update",
+        "30 days from the Order Date"
+      ],
+      "fills": "Order Form: Warranty Period",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "software-license-deletion",
+      "label": "When the license ends",
+      "ask": "What happens to the software when the license ends?",
+      "type": "multi",
+      "options": [
+        "We disable license keys",
+        "The customer uninstalls and deletes it",
+        "The customer certifies deletion"
+      ],
+      "fills": "Order Form: Deletion Procedure",
+      "codebase": "License key revocation or expiry handling.",
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-audit",
+      "label": "License audits",
+      "ask": "May you audit the customer's use of the software?",
+      "type": "choice",
+      "options": [
+        "Yes, with 7 days' notice (template wording)",
+        "No audit right"
+      ],
+      "fills": "Order Form: License Compliance Verification (delete when none)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "software-license-support",
+      "label": "Support and updates",
+      "ask": "What support and updates are included?",
+      "type": "choice",
+      "options": [
+        "Email support and updates included",
+        "Updates included; support costs extra",
+        "Updates only, no support"
+      ],
+      "fills": "Order Form: Services",
+      "codebase": "Release or update channels, support email in config.",
+      "legal_choice": false
+    },
+    {
+      "id": "software-license-liability",
+      "label": "Liability",
+      "ask": "What liability caps apply?",
+      "type": "choice",
+      "options": [
+        "1x fees; confidentiality breaches at 2x (standard)",
+        "1x fees, no higher cap",
+        "2x fees; confidentiality breaches at 3x"
+      ],
+      "fills": "Key Terms: General Cap Amount, Increased Claims and Increased Cap Amount. Covered Claims and Unlimited Claims keep the template defaults; Pilot, Additional Warranties, DPA and Other Changes are deleted unless the founder names one.",
+      "codebase": null,
+      "legal_choice": true
+    }
+  ]
+}

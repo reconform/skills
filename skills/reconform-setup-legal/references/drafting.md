@@ -1,8 +1,9 @@
-# Draft after the confirmed interview
+# Draft after the approved plan
 
 Read [the API and workspace format](api.md) for schemas and the context's
-organization/environment/mode. Read [the pinned source manifest](templates.json)
-and only the relevant template/cover files. Node 20+ is required for the helper.
+organization/environment/mode. Read [the catalog](catalog.json), then only the
+`template_files` of the chosen documents. [The pinned source manifest](templates.json)
+records each template's source and license. Node 20+ is required for the helper.
 If it is unavailable, return the confirmed brief and explain that preparation
 needs the helper; do not claim unvalidated files are ready for import.
 
@@ -15,9 +16,13 @@ commands sequentially.
 ## Write the confirmed facts
 
 Create `legal-workspace.json` with `facts`, `subprocessors`, and
-`subprocessor_document_id`. Retain existing vendor IDs. Fact keys use lowercase
-hyphenated slugs, such as `backup-retention`, never underscores. Confirmation
-records use the actual time the customer confirmed, not a copied example date.
+`subprocessor_document_id`. Retain existing vendor IDs. Each fact's `key` is the
+question `id` from the question files, such as `backup-retention`; use the
+question's `label` as its label. Every answered question becomes a `confirmed`
+fact whose `confirmed_at` is the time the founder approved the plan, not a copied
+example date. Its source says where the answer came from, for example "Founder
+confirmed in plan approval; proposed from lib/stripe.ts". Vendors from the
+subprocessor interview become `subprocessors` entries.
 
 Run this before any save:
 
@@ -28,12 +33,32 @@ node /path/to/reconform-setup-legal/scripts/legal.cjs validate-workspace --file 
 Correct local errors and repeat validation. Do not submit diagnostic one-fact
 subsets to the API; workspace PATCH replaces the complete fact/vendor lists.
 
-## Author covers and the privacy body
+## Author the document bodies
 
-Create `terms-cover.md`, `dpa-cover.md`, and `privacy-body.md` as needed. Keep
-questions and unfinished choices in `review.md`; do not call incomplete drafts
-ready for publication. Preserve the required cover fields and identify referenced
-attachments. Do not assert transfer arrangements or certifications from a guess.
+For each chosen document, write one authored Markdown file from its
+`template_files`, such as `terms-cover.md` or `privacy-body.md`. The catalog
+`mode` says how:
+
+- `cover+standard`: fill the cover page. Replace every bracketed field with the
+  confirmed answer. Keep only the checkbox options the founder chose, written as
+  plain statements. Remove drafting notes, instructions, HTML comments, and
+  optional fields that don't apply. The helper appends the standard terms
+  unchanged.
+- `adapted-body`: rewrite the source text for this business. Remove products,
+  names, links and commitments of the source company (the catalog's
+  `source_terms` must not remain) and anything the founder's facts don't
+  support. Keep the section headings a reader expects.
+
+Where a cover field belongs to each customer, such as the customer's name or the
+effective date, use the clickthrough wording the terms cover uses: the Customer
+is the company or person who accepts, and the effective date is the date they
+first accept. Do not assert transfer arrangements or certifications from a
+guess. Put a `Last updated: <date>` line under the title of every policy and of
+the terms, using the date you draft it. When a document is signed by each party instead of accepted online,
+end it with a signature block of labels only, one per line for each party:
+Company, Name, Title, Notice address, Signature, Date. Don't add underscores,
+brackets, or notes about what gets filled in. Nothing unfinished may remain: if an answer is missing, ask the founder
+now instead of leaving a gap. `review.md` records decisions, not open questions.
 
 For terms, explicitly resolve whether customer content or usage data may be used
 for model training. The standard grants permission. The helper requires the
@@ -55,7 +80,7 @@ from Common Paper's license.
 Create one JSON specification per document. Body files must be Markdown files in
 the same directory with names different from the assembled output.
 
-`terms.json`:
+The spec `kind` is the catalog id. `terms.json`:
 
 ```json
 {
@@ -68,13 +93,15 @@ the same directory with names different from the assembled output.
 }
 ```
 
-Use the customer's confirmed training choice: `prohibited` or `permitted`.
-Do not infer it from the example. For `privacy.json` and `dpa.json`, use the
-matching kind/name/slug/body filename and omit `model_training`. Privacy also
-omits `clause_reviews`.
+Use the customer's confirmed `model-training` answer: `prohibited` or
+`permitted`. Only terms specs have `model_training`. For other documents use
+the catalog id, name, slug and your body filename. Add `clause_reviews` when the
+document's question file lists `clause_reviews`, or when you amend a clause of
+its standard terms.
 
 The empty `clause_reviews` in the example must be filled before assembly. Review
-these clauses explicitly against the confirmed facts:
+these clauses explicitly against the confirmed facts (the question file maps
+each clause to the facts that decide it):
 
 | Kind  | Required clause decisions                                                                        |
 | ----- | ------------------------------------------------------------------------------------------------ |
@@ -101,13 +128,63 @@ node /path/to/reconform-setup-legal/scripts/legal.cjs assemble --spec terms.json
 ```
 
 This writes `terms.md`, supplies the pinned convenience copy and license notice,
-checks supported Markdown, and prints its SHA-256. Repeat for selected documents.
-Review the assembled text and semantic changes. Edit the authored cover/body and
-reassemble when changes are needed. Do not regex-strip HTML, manually paste the
-standard terms, or modify assembled output independently of its specification.
+checks supported Markdown, and prints its SHA-256. It then checks the document
+is usable and lists every problem: template blanks, drafting notes, checkboxes,
+source-business names, and missing sections. Fix the authored cover/body and
+assemble again until it reports `assembled`. Repeat for each chosen document.
+Do not regex-strip HTML, manually paste the standard terms, or modify assembled
+output independently of its specification.
+
+To recheck an assembled file, run:
+
+```sh
+node /path/to/reconform-setup-legal/scripts/legal.cjs check --spec terms.json
+```
+
+Read the assembled text yourself too. The check finds leftovers; it can't tell
+whether a clause matches the founder's facts.
 
 With no API key, return these assembled files, the fact file, and `review.md` for
 manual import. The helper's printed hashes are the actual file hashes.
+
+## Check the documents against each other
+
+A set of documents is published together, so read them as a set before saving:
+
+- Every confirmed fact appears in each document its question `fills`, in the
+  founder's words. Don't widen or narrow it: if a vendor receives "names and
+  email addresses", say exactly that everywhere.
+- Documents point to each other: the terms link the privacy policy, and the
+  DPA and subprocessor page when they exist; the DPA gives the subprocessor
+  page's address; the privacy policy links the subprocessor page and the cookie
+  policy. Use only addresses the founder confirmed. If you don't have one, ask.
+- Use every part of an answer. If the pricing answer mentions a trial or a
+  pricing page, the terms cover the trial and link the page; if the founder set
+  a minimum age, the terms say who may use the product.
+- Contract terms confirmed for one document hold in the others. Liability caps,
+  uncapped claims, renewal price limits, and notice periods in an SLA, DPA or
+  subprocessor page must match the terms, or the terms must say which document
+  controls.
+- No two documents disagree. For example, when the subprocessor objection
+  right includes a refund, the terms' refund rule makes that exception.
+- Commitments the founder confirmed and the reader expects are stated: no model
+  training in both the terms and the DPA, self-service controls in the privacy
+  policy, the security contact in the DPA.
+- For a B2B-only product, the Customer is "the company" that accepts, not
+  "the company or person".
+
+Then have the documents fact-checked by a fresh, read-only sub-agent, since
+it's hard to catch your own paraphrases. Give it `legal-workspace.json`, the
+founder's answers as recorded in the plan, and the assembled documents (the
+standard terms sections can be skipped). Ask it to quote every statement that
+contradicts, narrows, widens, or adds to a confirmed fact: a changed period or
+trigger ("30 days after cancellation" is not "30 days after the contract
+ends"), a dropped or added data category, an extra detail such as "daily", a
+feature the code doesn't have, or a wrong address. No sub-agents? Do this pass
+yourself, one fact at a time.
+
+Fix the authored files and assemble again. Anything that needs a new decision
+goes back to the founder.
 
 ## Save authorized drafts
 
@@ -130,7 +207,7 @@ If a document with the same slug already exists, such as a sandbox's example
 `terms`, `save-draft` adds the draft as that document's next version. It refuses
 when the existing document has a different kind or is archived.
 
-Replace `0` with the revision just read. Repeat `save-draft` for privacy and DPA.
+Replace `0` with the revision just read. Repeat `save-draft` for each chosen document.
 Local testing additionally requires `--allow-local` and an explicitly selected
 localhost API. Production/staging URLs must match the context's environment.
 The helper checks the key's organization/mode before writing.
@@ -175,7 +252,8 @@ Use the final helper `verified_at` timestamp for completion time. If timing is r
 Keep the specs, covers, assembled files, checkpoint and approval record together
 for resumption. Distinguish saved documents from unfinished/failed steps.
 
-For vendors, save the structured data and return to **Legal pages → Preview
+An empty subprocessor list needs the founder to confirm there are none; an
+unfinished vendor interview is not that confirmation. For vendors, save the structured data and return to **Legal pages → Preview
 subprocessor draft**. The app produces that fourth document. Live publication
 and public sharing happen in the app after review. The helper publishes only in
 test mode and has no commands for sharing or creating acceptance records. To go

@@ -1,0 +1,118 @@
+{
+  "document": "shared",
+  "questions": [
+    {
+      "id": "company-legal-name",
+      "label": "Company legal name",
+      "ask": "What is the legal name of the company that provides the product?",
+      "type": "text",
+      "example": "Acme Software, Inc.",
+      "fills": "Provider name in every document",
+      "codebase": "Footer or legal pages, package.json author, LICENSE copyright line, README. Propose only; the founder confirms.",
+      "legal_choice": false
+    },
+    {
+      "id": "company-address",
+      "label": "Company address",
+      "ask": "What is the company's registered or mailing address?",
+      "type": "text",
+      "example": "548 Market St, San Francisco, CA 94104, USA",
+      "fills": "Privacy contact section, DPA Annex I(A)",
+      "codebase": "Existing legal pages, site footer, email templates (CAN-SPAM footers often contain it).",
+      "legal_choice": false
+    },
+    {
+      "id": "legal-contact-email",
+      "label": "Legal and privacy contact",
+      "ask": "Which email address should receive legal notices and privacy requests?",
+      "type": "text",
+      "example": "legal@acme.com",
+      "fills": "Terms notice address, privacy contact, DPA contact",
+      "codebase": "Existing legal pages, support or contact pages, email sender configuration.",
+      "legal_choice": false
+    },
+    {
+      "id": "product-name",
+      "label": "Product name",
+      "ask": "What is the product called?",
+      "type": "text",
+      "example": "Acme",
+      "fills": "Titles and service definitions",
+      "codebase": "package.json name, site title or metadata, README heading.",
+      "legal_choice": false
+    },
+    {
+      "id": "product-description",
+      "label": "Product description",
+      "ask": "In one or two sentences, what does the product do and for whom?",
+      "type": "text",
+      "example": "Acme lets finance teams collect and approve vendor invoices.",
+      "fills": "Terms Cloud Service, DPA Service, privacy scope",
+      "codebase": "README, landing page hero copy, site metadata description.",
+      "legal_choice": false
+    },
+    {
+      "id": "website-url",
+      "label": "Website",
+      "ask": "What is the product's public website address?",
+      "type": "text",
+      "example": "https://acme.com",
+      "fills": "Links to pricing, privacy and subprocessor pages",
+      "codebase": "Site metadata base URL, NEXT_PUBLIC_SITE_URL or similar env examples, deployment config.",
+      "legal_choice": false
+    },
+    {
+      "id": "legal-pages-url",
+      "label": "Where documents are published",
+      "ask": "Where will these documents be published, so they can link to each other?",
+      "type": "choice",
+      "options": [
+        "On our website at /legal/<document>",
+        "On our website at /terms, /privacy and so on",
+        "Shared from Reconform (we add the links after publishing)"
+      ],
+      "fills": "Links between documents: terms to privacy, DPA and subprocessor page; privacy to cookie policy and subprocessor page",
+      "codebase": "Existing routes or pages named terms, privacy, legal or policies.",
+      "legal_choice": false
+    },
+    {
+      "id": "customer-audience",
+      "label": "Customers",
+      "ask": "Who signs up for the product?",
+      "type": "choice",
+      "options": [
+        "Businesses only (B2B)",
+        "Mostly businesses, some individuals",
+        "Individual consumers"
+      ],
+      "fills": "Template fit. These templates are written for B2B SaaS; for consumer products say so and offer to import reviewed documents instead.",
+      "codebase": "Signup flow fields (company name, workspace, team invites) and pricing tiers.",
+      "legal_choice": false
+    },
+    {
+      "id": "governing-law",
+      "label": "Governing law",
+      "ask": "Which law should govern your agreements, and where would disputes be heard?",
+      "type": "choice",
+      "options": [
+        "Delaware law, Delaware courts",
+        "California law, San Francisco courts",
+        "New York law, New York courts",
+        "England and Wales law and courts"
+      ],
+      "fills": "Terms Governing Law and Chosen Courts, NDA and other contracts",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "backup-retention",
+      "label": "Backup retention",
+      "ask": "How long do database backups keep deleted data before they expire?",
+      "type": "choice",
+      "options": ["7 days", "30 days", "90 days", "We don't keep backups"],
+      "fills": "Terms 5.6(b) deletion exceptions, privacy retention, DPA deletion",
+      "codebase": "Database provider settings in infrastructure code (point-in-time recovery windows, snapshot retention). Hosted database defaults are not proof of the actual setting.",
+      "legal_choice": false
+    }
+  ]
+}

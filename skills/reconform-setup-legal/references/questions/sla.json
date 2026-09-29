@@ -1,0 +1,188 @@
+{
+  "document": "sla",
+  "uses": [
+    "company-legal-name",
+    "legal-contact-email",
+    "product-name",
+    "product-description",
+    "website-url",
+    "governing-law"
+  ],
+  "questions": [
+    {
+      "id": "sla-uptime-target",
+      "label": "Uptime target",
+      "ask": "What monthly uptime do you commit to?",
+      "type": "choice",
+      "options": [
+        "99.9%",
+        "99.5%",
+        "99.0%",
+        "No uptime commitment, response time only"
+      ],
+      "fills": "Cover: Target Uptime (delete the uptime part if none). Order Date, Framework Terms parties and Customer use the clickthrough model: Customer is the company or person who accepts this agreement and the effective date is the date Customer first accepts (clickthrough model); the Framework Terms are the Key Terms included below. Fees, Subscription Period, Payment Process, Auto-renewal, Technical Support, Support Channel and General Cap Amount come from the terms interview.",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-uptime-credits",
+      "label": "Uptime credits",
+      "ask": "If uptime falls short, what credit does the customer get?",
+      "type": "choice",
+      "options": [
+        "10% of the monthly fee below target, 25% below 99.0%, 50% below 95.0%",
+        "5% below target, 10% below 99.0%, 25% below 95.0%",
+        "No credits, target only"
+      ],
+      "fills": "Cover: Uptime Credit table",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-scheduled-downtime",
+      "label": "Scheduled downtime",
+      "ask": "When may you take the service down for maintenance without it counting?",
+      "type": "choice",
+      "options": [
+        "With at least 48 hours' notice",
+        "With at least 5 days' notice",
+        "During a weekly window, e.g. Sunday 00:00-04:00 UTC"
+      ],
+      "fills": "Cover: Scheduled Downtime",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-response-target",
+      "label": "Response time",
+      "ask": "How fast do you commit to respond to a support request?",
+      "type": "choice",
+      "options": [
+        "Within 1 business day",
+        "Within 4 business hours",
+        "Within 2 business days",
+        "No response time commitment"
+      ],
+      "fills": "Cover: Target Response Time (delete that part if none)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-response-credit",
+      "label": "Response credit",
+      "ask": "What credit applies each time you miss the response time?",
+      "type": "choice",
+      "options": [
+        "2% of the monthly fee",
+        "5% of the monthly fee",
+        "No credit, target only"
+      ],
+      "fills": "Cover: Response Time Credit",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-price-increases",
+      "label": "Price increases",
+      "ask": "Can the price go up at renewal?",
+      "type": "choice",
+      "options": [
+        "No renewal price terms",
+        "Up to 5% per renewal",
+        "Up to 10% per renewal"
+      ],
+      "fills": "Cover: Cloud Service Fees increase options",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-increased-claims",
+      "label": "Higher-cap claims",
+      "ask": "Which claims get a higher liability cap than the general one?",
+      "type": "multi",
+      "options": [
+        "Breach of Section 3 (Privacy & Security)",
+        "Breach of Section 10 (Confidentiality)",
+        "Indemnification obligations",
+        "None; the general cap covers everything"
+      ],
+      "fills": "Cover: Increased Claims",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-increased-cap",
+      "label": "Higher cap",
+      "ask": "How high is that higher cap?",
+      "type": "choice",
+      "options": [
+        "2x fees paid in the prior 12 months",
+        "3x fees paid in the prior 12 months",
+        "Greater of $1,000,000 or 2x fees",
+        "No higher cap"
+      ],
+      "fills": "Cover: Increased Cap Amount",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-unlimited-claims",
+      "label": "Uncapped claims",
+      "ask": "Which claims have no liability cap at all?",
+      "type": "multi",
+      "options": [
+        "Indemnification obligations (standard)",
+        "Privacy or confidentiality breaches from gross negligence or willful misconduct",
+        "None"
+      ],
+      "fills": "Cover: Unlimited Claims",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-security-commitment",
+      "label": "Security commitment",
+      "ask": "What security commitment goes in the contract?",
+      "type": "choice",
+      "options": [
+        "Commercially reasonable efforts (standard)",
+        "Comply with our published security policy",
+        "Annual SOC 2 Type II report",
+        "Annual penetration test"
+      ],
+      "fills": "Cover: Security Policy",
+      "codebase": null,
+      "legal_choice": false
+    },
+    {
+      "id": "sla-insurance",
+      "label": "Insurance",
+      "ask": "Which insurance do you promise to carry?",
+      "type": "choice",
+      "options": [
+        "No insurance commitments",
+        "Cyber and E&O, $1M per occurrence",
+        "General liability, E&O and cyber, $1M each"
+      ],
+      "fills": "Cover: Insurance Minimums (delete if none)",
+      "codebase": null,
+      "legal_choice": true
+    },
+    {
+      "id": "sla-extras",
+      "label": "Optional sections",
+      "ask": "Which of these apply to your contracts?",
+      "type": "multi",
+      "options": [
+        "A free trial or pilot before the paid period",
+        "Professional services such as onboarding",
+        "Our Data Processing Agreement",
+        "None of these"
+      ],
+      "fills": "Cover: Pilot, Professional Services and DPA rows. Rows not selected are deleted, as are Use Limitations, Additional Warranties and Other Changes unless the founder names one.",
+      "codebase": null,
+      "follow_up": "For a trial ask its length and whether it is free; for services ask what is included and how it is billed.",
+      "legal_choice": false
+    }
+  ]
+}
