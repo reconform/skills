@@ -2,7 +2,7 @@
 name: reconform-setup-legal
 description: Interview a B2B SaaS founder with structured questions, then turn licensed templates into complete legal documents with no blanks left. Use to set up terms, privacy, DPA, subprocessors and the other catalog documents, to replace a sandbox's example terms, or to revise documents after practices change.
 metadata:
-  version: "2.0.1"
+  version: "2.2.0"
 ---
 
 # Set up legal pages
@@ -13,8 +13,8 @@ after the founder approves the plan, you draft, check and save.
 
 ## Workspace files
 
-Use `.reconform/context.json` when it exists; `npx @reconform/cli@next init`
-writes it along with `RECONFORM_API_KEY`. Otherwise use the context file the
+Use `.reconform/context.json` when it exists; the sandbox setup writes it along
+with `RECONFORM_API_KEY` in the app's env file. Otherwise use the context file the
 customer downloaded from Reconform. Keep working files, the checkpoint, and
 `review.md` in `.reconform/legal/`. Do not edit application code; another agent
 may be wiring the integration at the same time.
@@ -92,5 +92,5 @@ whether to publish it in test mode so their app shows it. Publish only after an
 explicit yes to that exact text, using the helper's `publish-test` command with
 their words as the approval. Never publish live, never publish text that
 changed after approval, and never create acceptance evidence. Then point them to
-the claim link (`npx @reconform/cli@next claim`) to keep the sandbox and go live
-from Reconform.
+the claim link (`RECONFORM_CLAIM_URL` in the env file) to keep the sandbox and go
+live from Reconform.

@@ -2,7 +2,7 @@
 name: reconform-create-document
 description: Write a legal document that has no vetted Reconform template, such as a beta testing agreement or reseller terms. Research what the document type needs, interview the founder with 6-12 structured questions, and draft a complete document with no blanks. Use for any document outside the reconform-setup-legal catalog.
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # Write a document without a template
@@ -51,11 +51,15 @@ or person who accepts it and the effective date is when they first accept. Add
 a short "About this document" note at the end saying it was drafted without a
 standard template.
 
-Check it is usable before showing it. From the skills repository checkout, run:
+Check it is usable before showing it. If you downloaded the setup skill's helper
+(`scripts/legal.cjs` into `.reconform/skills/reconform-setup-legal/`, as its
+drafting guide describes), run:
 
 ```sh
-node .reconform/skill-repository/skills/reconform-setup-legal/scripts/legal.cjs check --file .reconform/legal/<slug>.md
+node .reconform/skills/reconform-setup-legal/scripts/legal.cjs check --file .reconform/legal/<slug>.md
 ```
+
+`check --file` needs only the helper file itself.
 
 It rejects template blanks, drafting notes, `TODO`/`TBD`, and checkbox choices.
 Fix every problem it lists. If the helper isn't available, search the file for

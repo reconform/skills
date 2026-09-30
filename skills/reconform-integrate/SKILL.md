@@ -1,8 +1,8 @@
 ---
 name: reconform-integrate
-description: Add Reconform terms acceptance to a web app. Creates consent sessions on the backend for the signed-in user, shows the consent screen, and checks acceptance status before granting access. Use after `npx @reconform/cli@next init`, or when asked to wire Reconform into an app.
+description: Add Reconform terms acceptance to a web app. Creates consent sessions on the backend for the signed-in user, shows the consent screen, and checks acceptance status before granting access. Use when asked to wire Reconform into an app; it can create a test sandbox with plain API calls first.
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # Add terms acceptance to an app
@@ -11,8 +11,8 @@ Read [the API reference](references/api.md) and [the framework recipes](referenc
 
 ## Before you start
 
-1. Look for `RECONFORM_API_KEY` in the environment or the app's env file. If it is missing, run `npx @reconform/cli@next init --json` from the app root. It creates a test sandbox with published example terms, writes the key to the env file, and writes `.reconform/context.json`.
-2. Never print the key, put it in browser code, or commit the env file. `init` adds the env file to `.gitignore`; keep it there.
+1. Look for `RECONFORM_API_KEY` in the environment or the app's env file. If it is missing, follow [the sandbox steps](references/sandbox.md): `curl` calls that create a test sandbox with published example terms, save the key to the env file without printing it, and write `.reconform/context.json`.
+2. Never print the key, put it in browser code, or commit the env file. Keep the env file and `.reconform/auth.header` in `.gitignore`.
 3. Do not edit `.reconform/legal/`. Another agent may be drafting documents there at the same time.
 
 ## Find the app's shape
@@ -33,7 +33,7 @@ Keep the change small. Do not restyle the app or refactor unrelated code.
 
 ## Check it
 
-Run `npx @reconform/cli@next doctor`. Then run the app's typecheck, tests, or build, whichever the project uses, and start the dev server. Open the page yourself only if you have browser tools, and never click accept: an acceptance records a person's consent, so the person must do it.
+Run the setup check in [the sandbox steps](references/sandbox.md#5-check-the-setup). Then run the app's typecheck, tests, or build, whichever the project uses, and start the dev server. Open the page yourself only if you have browser tools, and never click accept: an acceptance records a person's consent, so the person must do it.
 
 ## Report back
 
@@ -41,7 +41,7 @@ Return this summary:
 
 - **Files changed:** each path and a one-line reason.
 - **Run:** the command that starts the app, and the URL where the consent screen appears.
-- **Doctor:** the result of `reconform doctor`.
+- **Setup check:** the result of each check in the sandbox steps.
 - **Needs attention:** development stubs, failing checks, or decisions for the person.
 
 Tell the person they can accept the example terms in their browser now. Their real terms can replace the example later through `reconform-setup-legal` without code changes, because the integration requests the `terms` slug.

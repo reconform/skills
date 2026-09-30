@@ -1,3 +1,9 @@
+# 2.2.0
+
+Fetch the helper and only the reference files it needs one at a time with
+`curl`, instead of cloning the skills repository. API commands load the key
+with `node --env-file`. No CLI steps.
+
 # 2.0.1
 
 Rebuild the helper against the current API schemas, which add the

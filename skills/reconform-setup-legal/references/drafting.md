@@ -7,11 +7,45 @@ records each template's source and license. Node 20+ is required for the helper.
 If it is unavailable, return the confirmed brief and explain that preparation
 needs the helper; do not claim unvalidated files are ready for import.
 
-Use `node /path/to/reconform-setup-legal/scripts/legal.cjs` for the commands below.
 The helper has its dependencies bundled; no npm install or model-provider key is
 needed. It does not call an LLM. Credentials stay in `RECONFORM_API_KEY` in the
-local environment. Preserve one checkpoint per organization/mode, and run its
+app's env file. Preserve one checkpoint per organization/mode, and run its
 commands sequentially.
+
+## Get the helper
+
+Download each file the helper needs with its own `curl -fsS -o`, keeping the
+skill's paths under `.reconform/skills/reconform-setup-legal/`. Read any of them
+first if you want; the start guide lists every file with its URL. The helper
+needs:
+
+- `scripts/legal.cjs`, `references/catalog.json` and `references/templates.json`;
+- `references/questions/<id>.json` for each chosen document;
+- every path in the `source_files` of each chosen document's template entry in
+  `templates.json`, including the `.docx` originals and the license text. The
+  helper checks each file's SHA-256 against that list.
+
+For terms, that is:
+
+```sh
+B=https://www.reconform.co/skills/reconform-setup-legal/2.2.0
+D=.reconform/skills/reconform-setup-legal
+mkdir -p $D/scripts $D/references/questions $D/references/templates
+curl -fsS -o $D/scripts/legal.cjs $B/scripts/legal.cjs
+curl -fsS -o $D/references/catalog.json $B/references/catalog.json
+curl -fsS -o $D/references/templates.json $B/references/templates.json
+curl -fsS -o $D/references/questions/terms.json $B/references/questions/terms.json
+curl -fsS -o $D/references/templates/terms.md $B/references/templates/terms.md
+curl -fsS -o $D/references/templates/terms-source.docx $B/references/templates/terms-source.docx
+curl -fsS -o $D/references/templates/csa.md $B/references/templates/csa.md
+curl -fsS -o $D/references/templates/CC-BY-4.0.txt $B/references/templates/CC-BY-4.0.txt
+```
+
+Run every helper command from `.reconform/legal/`. Commands that only work on
+local files use `node ../skills/reconform-setup-legal/scripts/legal.cjs`.
+Commands that call the API also load the key from the app's env file with
+`node --env-file=../../.env.local ../skills/reconform-setup-legal/scripts/legal.cjs`;
+use `../../.env` if that is the app's env file.
 
 ## Write the confirmed facts
 
@@ -27,7 +61,7 @@ subprocessor interview become `subprocessors` entries.
 Run this before any save:
 
 ```sh
-node /path/to/reconform-setup-legal/scripts/legal.cjs validate-workspace --file legal-workspace.json
+node ../skills/reconform-setup-legal/scripts/legal.cjs validate-workspace --file legal-workspace.json
 ```
 
 Correct local errors and repeat validation. Do not submit diagnostic one-fact
@@ -124,7 +158,7 @@ choice is unresolved, ask the customer and retain the question rather than
 inventing a keep reason. Record the actual clause decisions in `review.md`.
 
 ```sh
-node /path/to/reconform-setup-legal/scripts/legal.cjs assemble --spec terms.json
+node ../skills/reconform-setup-legal/scripts/legal.cjs assemble --spec terms.json
 ```
 
 This writes `terms.md`, supplies the pinned convenience copy and license notice,
@@ -138,7 +172,7 @@ output independently of its specification.
 To recheck an assembled file, run:
 
 ```sh
-node /path/to/reconform-setup-legal/scripts/legal.cjs check --spec terms.json
+node ../skills/reconform-setup-legal/scripts/legal.cjs check --spec terms.json
 ```
 
 Read the assembled text yourself too. The check finds leftovers; it can't tell
@@ -193,14 +227,14 @@ local key, read the current workspace first. Run the commands from
 `.reconform/legal/` so the checkpoint and `review.md` stay together:
 
 ```sh
-node /path/to/reconform-setup-legal/scripts/legal.cjs read-workspace --context ../context.json --state checkpoint.json
+node --env-file=../../.env.local ../skills/reconform-setup-legal/scripts/legal.cjs read-workspace --context ../context.json --state checkpoint.json
 ```
 
 Use the returned revision for the complete workspace save:
 
 ```sh
-node /path/to/reconform-setup-legal/scripts/legal.cjs save-workspace --file legal-workspace.json --context ../context.json --state checkpoint.json --expected-revision 0
-node /path/to/reconform-setup-legal/scripts/legal.cjs save-draft --spec terms.json --context ../context.json --state checkpoint.json
+node --env-file=../../.env.local ../skills/reconform-setup-legal/scripts/legal.cjs save-workspace --file legal-workspace.json --context ../context.json --state checkpoint.json --expected-revision 0
+node --env-file=../../.env.local ../skills/reconform-setup-legal/scripts/legal.cjs save-draft --spec terms.json --context ../context.json --state checkpoint.json
 ```
 
 If a document with the same slug already exists, such as a sandbox's example
@@ -234,7 +268,7 @@ Only in test mode, and only after the customer explicitly approves the exact
 assembled text, publish it so their integration shows it:
 
 ```sh
-node /path/to/reconform-setup-legal/scripts/legal.cjs publish-test --spec terms.json --context ../context.json --state checkpoint.json --confirmed "Yes, publish these terms in test mode."
+node --env-file=../../.env.local ../skills/reconform-setup-legal/scripts/legal.cjs publish-test --spec terms.json --context ../context.json --state checkpoint.json --confirmed "Yes, publish these terms in test mode."
 ```
 
 Pass the customer's actual words. The helper refuses live contexts, refuses a
@@ -257,5 +291,6 @@ unfinished vendor interview is not that confirmation. For vendors, save the stru
 subprocessor draft**. The app produces that fourth document. Live publication
 and public sharing happen in the app after review. The helper publishes only in
 test mode and has no commands for sharing or creating acceptance records. To go
-live, the customer claims the sandbox (`npx @reconform/cli@next claim`) and
+live, the customer claims the sandbox by opening `RECONFORM_CLAIM_URL` from
+the env file, and
 promotes the reviewed test document in the app.

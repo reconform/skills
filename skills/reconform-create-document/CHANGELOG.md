@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0 · 2026-09-30
+
+Run the usable check with the setup skill's helper downloaded by `curl`, not
+from a cloned skills repository.
+
 ## 2.0.0 · 2026-09-25
 
 Becomes the workflow for documents without a vetted template. Research the

@@ -1,3 +1,10 @@
+# 2.2.0
+
+Set up and check the test sandbox with plain `curl` calls and a short local
+script instead of running the CLI, so every command can be read before it
+runs. The key goes into the env file and a private header file without being
+printed. The CLI remains an optional shortcut.
+
 # 2.1.0
 
 Document `checkbox: "combined"` on consent sessions, which shows one checkbox
