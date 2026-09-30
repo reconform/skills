@@ -28,7 +28,7 @@ needs:
 For terms, that is:
 
 ```sh
-B=https://www.reconform.co/skills/reconform-setup-legal/2.3.0
+B=https://www.reconform.co/skills/reconform-setup-legal/2.4.0
 D=.reconform/skills/reconform-setup-legal
 mkdir -p $D/scripts $D/references/questions $D/references/templates
 curl -fsS -o $D/scripts/legal.cjs $B/scripts/legal.cjs
@@ -242,6 +242,8 @@ If a document with the same slug already exists, such as a sandbox's example
 when the existing document has a different kind or is archived.
 
 Replace `0` with the revision just read. Repeat `save-draft` for each chosen document.
+`--summary "<one line>"` sets the change summary the app shows in version
+history; an update should say what changed and why.
 Local testing additionally requires `--allow-local` and an explicitly selected
 localhost API. Production/staging URLs must match the context's environment.
 The helper checks the key's organization/mode before writing.

@@ -1,3 +1,21 @@
+# 2.4.0
+
+Update published documents after the app changes. When the saved workspace
+already has confirmed facts, the skill loads them and the published version of
+each document, reruns the codebase scout against them, reports new and removed
+vendors, new data uses and facts the code no longer matches, and asks only
+about those. The rebuilt drafts are shown as diffs against the published
+versions, with each change tied to the fact that caused it. In live mode the
+skill saves drafts and recommends a re-acceptance policy for each; publication
+stays in the app. The helper adds two read-only commands, `read-published` and
+`diff` (which also renders the subprocessor list the way the app does), and a
+`--summary` option for `save-draft`. When the founder approves wording that
+goes beyond a saved fact, the rerun updates the fact too, and the new
+`check-facts` command fails when a saved vendor or data category is missing
+from the vendor facts. The document-slot note now says Free allows four live
+documents, which covers terms, privacy, DPA and the subprocessor list. The
+first-run flow is otherwise unchanged. The 2.3.0 archive stays available.
+
 # 2.3.0
 
 Read the codebase only after the founder agrees, and never send anything from

@@ -21557,6 +21557,16 @@ var PublicLegalHubSchema = external_exports.object({
   documents: external_exports.array(PublicLegalSummarySchema)
 });
 
+// ../../packages/core/dist/subprocessor-markdown.js
+function cell(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\\`*_{}[\]()#+!|~]/g, "\\$&").replace(/[\r\n]+/g, " ");
+}
+function renderSubprocessorMarkdown({ subprocessors }) {
+  if (subprocessors.length === 0)
+    return "# Subprocessors\n\nNo subprocessors are listed.\n";
+  return "# Subprocessors\n\n| Name | Purpose | Data categories | Processing locations | Website |\n| --- | --- | --- | --- | --- |\n" + subprocessors.map((vendor) => `| ${[vendor.name, vendor.purpose, vendor.data_categories.join(", "), vendor.processing_locations.join(", "), vendor.website_url].map(cell).join(" | ")} |`).join("\n") + "\n";
+}
+
 // scripts/legal-workflow.mjs
 var sha = (text2) => (0, import_node_crypto.createHash)("sha256").update(text2).digest("hex");
 var noTraining = "Section 1.6 (Machine Learning) does not apply. Provider will not use Customer Content or Usage Data to develop, train, or enhance artificial intelligence or machine learning models, including third-party components.";
@@ -21930,23 +21940,26 @@ async function client(options) {
   }
   return { context, state, persist, request, identity, workspace, mutate };
 }
-async function findDocument(c, slug) {
+async function listDocuments(c) {
   const Page = external_exports.object({
     data: external_exports.array(DocumentSchema),
     has_more: external_exports.boolean(),
     next_cursor: external_exports.string().nullable()
   });
+  const documents = [];
   for (let cursor = null; ; ) {
     const page = Page.parse(
       await c.request(
         `/documents?limit=100${cursor ? `&starting_after=${encodeURIComponent(cursor)}` : ""}`
       )
     );
-    const found = page.data.find((document) => document.slug === slug);
-    if (found) return c.identity(found);
-    if (!page.has_more || !page.next_cursor) return null;
+    documents.push(...page.data.map(c.identity));
+    if (!page.has_more || !page.next_cursor) return documents;
     cursor = page.next_cursor;
   }
+}
+async function findDocument(c, slug) {
+  return (await listDocuments(c)).find((document) => document.slug === slug) ?? null;
 }
 async function saveDraft(options, spec, markdown, references) {
   await checkDocument(spec, markdown, references);
@@ -22010,7 +22023,7 @@ async function saveDraft(options, spec, markdown, references) {
     );
   const desired = CreateDraftSchema.parse({
     content_md: markdown,
-    change_summary: `Prepared with reconform-setup-legal 2.3.0 (${spec.kind})`
+    change_summary: options.summary ?? `Prepared with reconform-setup-legal 2.4.0 (${spec.kind})`
   });
   if (version2?.status === "draft") {
     if (c.state.pending && c.state.pending.label !== `update:${spec.slug}`)
@@ -22034,7 +22047,7 @@ async function saveDraft(options, spec, markdown, references) {
           "Repeat the original pending update before changing its input."
         );
     }
-    if (version2.content_md === markdown) {
+    if (version2.content_md === markdown && (options.summary === void 0 || version2.change_summary === desired.change_summary)) {
       entry.revision = version2.revision;
       entry.sha256 = checkReadback(markdown, version2.content_md);
       c.state.pending = null;
@@ -22093,6 +22106,196 @@ async function saveDraft(options, spec, markdown, references) {
     revision: readback.revision,
     sha256: digest
   };
+}
+async function readPublished(options) {
+  const out = options.out ? (0, import_node_path.resolve)(options.out) : null;
+  if (out === process.cwd())
+    throw new Error(
+      "Pass a separate directory to --out, such as published, not the working directory."
+    );
+  const c = await client(options);
+  const documents = await listDocuments(c);
+  const fields = LegalWorkspaceFieldsSchema.parse(c.workspace);
+  if (out) await store((0, import_node_path.resolve)(out, "legal-workspace.json"), fields);
+  const published = [];
+  for (const document of documents) {
+    if (document.archived_at !== null || !document.current_version_id) continue;
+    const version2 = c.identity(
+      VersionSchema.parse(
+        await c.request(`/versions/${document.current_version_id}`)
+      )
+    );
+    if (version2.document_id !== document.id || version2.status !== "published")
+      throw new Error(
+        `Document ${document.slug} points at a version that is not its published version.`
+      );
+    let file2;
+    if (out) {
+      file2 = (0, import_node_path.resolve)(out, `${document.slug}.md`);
+      await (0, import_promises.mkdir)(out, { recursive: true });
+      await (0, import_promises.writeFile)(file2, version2.content_md);
+    }
+    published.push({
+      slug: document.slug,
+      name: document.name,
+      kind: document.kind,
+      subprocessor_list: document.id === fields.subprocessor_document_id,
+      document_id: document.id,
+      version_id: version2.id,
+      version_number: version2.version_number,
+      published_at: new Date(version2.published_at).toISOString(),
+      reacceptance: version2.reacceptance,
+      sha256: version2.content_hash,
+      ...file2 && { file: file2 }
+    });
+  }
+  const confirmed = fields.facts.filter(
+    (fact) => fact.answer.status === "confirmed"
+  );
+  return {
+    status: "read",
+    // Confirmed facts mean an earlier run finished its interview. A sandbox's
+    // example terms alone are not a rerun.
+    rerun: confirmed.length > 0,
+    mode: c.context.mode,
+    workspace: {
+      revision: c.workspace.revision,
+      confirmed_facts: confirmed.length,
+      subprocessors: fields.subprocessors.map((vendor) => vendor.name),
+      ...out && { file: (0, import_node_path.resolve)(out, "legal-workspace.json") }
+    },
+    documents: published
+  };
+}
+function stem(word) {
+  if (/(s|x|z|ch|sh)es$/.test(word)) return word.slice(0, -2);
+  if (word.length > 3 && /[^s]s$/.test(word)) return word.slice(0, -1);
+  return word;
+}
+var words = (text2) => text2.toLowerCase().split(/[^a-z0-9]+/).filter(
+  (word) => word && ![
+    "and",
+    "or",
+    "of",
+    "the",
+    "a",
+    "an",
+    "to",
+    "for",
+    "with",
+    "by"
+  ].includes(word)
+).map(stem);
+function checkFacts(workspace) {
+  const fact = (key) => {
+    const answer = workspace.facts.find((item) => item.key === key)?.answer;
+    return answer?.status === "confirmed" ? answer.value : null;
+  };
+  const list = fact("vendor-list");
+  const purposes = fact("vendor-purposes");
+  const mismatches = [];
+  if (workspace.subprocessors.length) {
+    if (list === null)
+      mismatches.push(
+        "vendor-list is missing or not confirmed, but there are saved vendors."
+      );
+    if (purposes === null)
+      mismatches.push(
+        "vendor-purposes is missing or not confirmed, but there are saved vendors."
+      );
+  }
+  const names = workspace.subprocessors.map((vendor) => vendor.name);
+  for (const vendor of workspace.subprocessors) {
+    if (list !== null && !list.toLowerCase().includes(vendor.name.toLowerCase()))
+      mismatches.push(
+        `vendor-list does not name ${vendor.name}, which is a saved vendor.`
+      );
+    if (purposes === null) continue;
+    const lower = purposes.toLowerCase();
+    const start = lower.indexOf(vendor.name.toLowerCase());
+    if (start === -1) {
+      mismatches.push(`vendor-purposes does not describe ${vendor.name}.`);
+      continue;
+    }
+    const next = names.filter((name) => name !== vendor.name).map((name) => lower.indexOf(name.toLowerCase(), start + 1)).filter((index) => index > start);
+    const segment = new Set(
+      words(purposes.slice(start, next.length ? Math.min(...next) : void 0))
+    );
+    for (const category of vendor.data_categories)
+      if (!words(category).every((word) => segment.has(word)))
+        mismatches.push(
+          `${vendor.name} gets "${category}", but vendor-purposes doesn't say so. Update the fact with the approved wording, or correct the vendor.`
+        );
+  }
+  return {
+    status: mismatches.length ? "mismatch" : "consistent",
+    mismatches
+  };
+}
+function unifiedDiff(before, after, labels, context = 3) {
+  if (before === after) return "";
+  const splitLines = (text2) => (text2.endsWith("\n") ? text2.slice(0, -1) : text2).split("\n");
+  const a = splitLines(before);
+  const b2 = splitLines(after);
+  let start = 0;
+  while (start < a.length && start < b2.length && a[start] === b2[start]) start++;
+  let endA = a.length;
+  let endB = b2.length;
+  while (endA > start && endB > start && a[endA - 1] === b2[endB - 1]) {
+    endA--;
+    endB--;
+  }
+  const x2 = a.slice(start, endA);
+  const y2 = b2.slice(start, endB);
+  const width = y2.length + 1;
+  if ((x2.length + 1) * width > 25e6)
+    throw new Error(
+      "The texts differ too much for a line diff. Compare them section by section."
+    );
+  const lcs = new Uint32Array((x2.length + 1) * width);
+  for (let i = x2.length - 1; i >= 0; i--)
+    for (let j2 = y2.length - 1; j2 >= 0; j2--)
+      lcs[i * width + j2] = x2[i] === y2[j2] ? lcs[(i + 1) * width + j2 + 1] + 1 : Math.max(lcs[(i + 1) * width + j2], lcs[i * width + j2 + 1]);
+  const ops = a.slice(0, start).map((line) => [" ", line]);
+  for (let i = 0, j2 = 0; i < x2.length || j2 < y2.length; ) {
+    if (i < x2.length && j2 < y2.length && x2[i] === y2[j2]) {
+      ops.push([" ", x2[i++]]);
+      j2++;
+    } else if (i < x2.length && (j2 === y2.length || lcs[(i + 1) * width + j2] >= lcs[i * width + j2 + 1]))
+      ops.push(["-", x2[i++]]);
+    else ops.push(["+", y2[j2++]]);
+  }
+  ops.push(...a.slice(endA).map((line) => [" ", line]));
+  const lines = [];
+  let oldLine = 1;
+  let newLine = 1;
+  for (const [type, text2] of ops) {
+    lines.push({ type, text: text2, oldLine, newLine });
+    if (type !== "+") oldLine++;
+    if (type !== "-") newLine++;
+  }
+  const ranges = [];
+  lines.forEach((line, index) => {
+    if (line.type === " ") return;
+    const from = Math.max(0, index - context);
+    const to = Math.min(lines.length, index + context + 1);
+    const last = ranges.at(-1);
+    if (last && from <= last[1]) last[1] = Math.max(last[1], to);
+    else ranges.push([from, to]);
+  });
+  const hunks = ranges.map(([from, to], number4) => {
+    const part = lines.slice(from, to);
+    const oldCount = part.filter((line) => line.type !== "+").length;
+    const newCount = part.filter((line) => line.type !== "-").length;
+    return [
+      `@@ -${part[0].oldLine},${oldCount} +${part[0].newLine},${newCount} @@ change ${number4 + 1}`,
+      ...part.map((line) => line.type + line.text)
+    ].join("\n");
+  });
+  return `--- ${labels.from}
++++ ${labels.to}
+${hunks.join("\n")}
+`;
 }
 async function publishTest(options, spec, markdown) {
   const approval = external_exports.string().trim().min(1, "Pass --confirmed with the person's approval of the exact text.").max(2e3).parse(options.confirmed ?? "");
@@ -22166,6 +22369,11 @@ async function main(args = process.argv.slice(2)) {
       state: { type: "string" },
       "expected-revision": { type: "string" },
       confirmed: { type: "string" },
+      summary: { type: "string" },
+      out: { type: "string" },
+      from: { type: "string" },
+      to: { type: "string" },
+      workspace: { type: "string" },
       "allow-local": { type: "boolean", default: false }
     }
   });
@@ -22215,6 +22423,29 @@ async function main(args = process.argv.slice(2)) {
       sha256: sha(JSON.stringify(readback))
     };
   }
+  if (command === "read-published") return readPublished(o);
+  if (command === "check-facts") {
+    const result = checkFacts(validateWorkspace(await json2(o.file)));
+    if (result.mismatches.length)
+      throw new Error(
+        `Saved facts and vendors disagree:
+- ${result.mismatches.join("\n- ")}`
+      );
+    return result;
+  }
+  if (command === "diff") {
+    if (!o.from || !o.to === !o.workspace)
+      throw new Error(
+        "Pass --from with the published file, and --to with the draft or --workspace with legal-workspace.json for the subprocessor list."
+      );
+    const after = o.workspace ? renderSubprocessorMarkdown(validateWorkspace(await json2(o.workspace))) : await (0, import_promises.readFile)((0, import_node_path.resolve)(o.to), "utf8");
+    const diff = unifiedDiff(await (0, import_promises.readFile)((0, import_node_path.resolve)(o.from), "utf8"), after, {
+      from: o.from,
+      to: o.to ?? `subprocessor list from ${o.workspace}`
+    });
+    return diff || `No changes between ${o.from} and ${o.to ?? o.workspace}.
+`;
+  }
   if (command === "check" && !o.spec) {
     if (!o.file)
       throw new Error("Pass --file, or --spec for a catalog document.");
@@ -22254,13 +22485,15 @@ async function main(args = process.argv.slice(2)) {
     return command === "publish-test" ? publishTest(o, spec, markdown) : saveDraft(o, spec, markdown, references);
   }
   throw new Error(
-    "Commands: validate-workspace --file; assemble --spec; check --spec | --file; read-workspace --context --state [--file]; save-workspace --file --context --state --expected-revision; save-draft --spec --context --state [--expected-revision]; publish-test --spec --context --state --confirmed. Local API use also requires --allow-local. Node 20+ required."
+    "Commands: validate-workspace --file; assemble --spec; check --spec | --file; read-workspace --context --state [--file]; read-published --context --state [--out]; diff --from (--to | --workspace); check-facts --file; save-workspace --file --context --state --expected-revision; save-draft --spec --context --state [--expected-revision] [--summary]; publish-test --spec --context --state --confirmed. Local API use also requires --allow-local. Node 20+ required."
   );
 }
 
 // scripts/legal-workflow-cli.mjs
 main().then((result) => {
-  process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+  process.stdout.write(
+    typeof result === "string" ? result : JSON.stringify(result, null, 2) + "\n"
+  );
 }).catch((error62) => {
   process.stderr.write(
     JSON.stringify(

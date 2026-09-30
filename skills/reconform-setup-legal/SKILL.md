@@ -1,8 +1,8 @@
 ---
 name: reconform-setup-legal
-description: Interview a B2B SaaS founder with structured questions, then turn licensed templates into complete legal documents with no blanks left. Use to set up terms, privacy, DPA, subprocessors and the other catalog documents, to replace a sandbox's example terms, or to revise documents after practices change.
+description: Interview a B2B SaaS founder with structured questions, then turn licensed templates into complete legal documents with no blanks left. Use to set up terms, privacy, DPA, subprocessors and the other catalog documents, to replace a sandbox's example terms, or to update published documents after the app changes (a new vendor, a new feature), with a diff against what's published.
 metadata:
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # Set up legal pages
@@ -35,6 +35,20 @@ These templates are written for English-language B2B SaaS. If the founder
 says customers are individual consumers, or the product handles regulated data
 the templates don't cover, say so and offer to import documents they already
 had reviewed.
+
+## First run or update
+
+Before picking documents, check whether an earlier run confirmed facts: look
+for confirmed facts in `.reconform/legal/legal-workspace.json`, or, when an
+earlier run left the helper and a context file, print the saved workspace with
+its read-only `read-workspace` command (see
+[the update workflow](references/maintenance.md)). A sandbox's example terms
+alone are not an earlier run.
+
+- No earlier run: follow the plan below.
+- Earlier run: follow [the update workflow](references/maintenance.md). It
+  reruns the scout against the saved facts, asks only about what changed,
+  and shows each document as a diff against its published version.
 
 ## Plan: pick, scout, interview
 
@@ -86,9 +100,10 @@ checkboxes from the template, no names from the source business, and the
 sections a reader expects. A document that fails the check isn't done. Go back
 to the founder for the missing answer, then fix the authored file.
 
-Terms, privacy, DPA, and a subprocessor list use four document slots. Free allows
-three live documents; explain that before a four-document live save. Test mode
-has separate documents and does not require a paid upgrade.
+Terms, privacy, DPA, and a subprocessor list use four document slots. Free
+allows four live documents, so it covers that set. A fifth live document needs
+a paid plan; say so before that save. Test mode has separate documents and does
+not require a paid upgrade.
 
 ## Publish in test mode after approval
 
@@ -99,3 +114,7 @@ their words as the approval. Never publish live, never publish text that
 changed after approval, and never create acceptance evidence. Then point them to
 the claim link (`RECONFORM_CLAIM_URL` in the env file) to keep the sandbox and go
 live from Reconform.
+
+In live mode, save drafts and stop. The founder publishes in the app. When the
+drafts update published documents, recommend a re-acceptance policy for each,
+as the update workflow describes.

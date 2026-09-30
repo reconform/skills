@@ -67,6 +67,48 @@ Finish with one JSON object and nothing else:
 it), or `claimed` (text says so but code doesn't show it). Keys are the
 question `id`s.
 
+## Rerun: compare with the saved facts
+
+When the main agent also gives you saved facts and vendors from an earlier run,
+check each one against the code as well, and add a `changes` object to the
+JSON:
+
+```json
+{
+  "changes": {
+    "new_vendors": [
+      {
+        "name": "OpenAI",
+        "evidence": "lib/ai.ts:3",
+        "data": "Employee names, roles and past shift times"
+      }
+    ],
+    "removed_vendors": [
+      { "name": "Resend", "evidence": "No import or call remains" }
+    ],
+    "new_data_uses": [
+      {
+        "use": "AI schedule suggestions",
+        "data": "Employee names, roles, shift times",
+        "evidence": "app/api/schedule/suggest/route.ts:5"
+      }
+    ],
+    "stale_facts": [
+      {
+        "fact": "data-locations",
+        "saved": "Resend in the US",
+        "code": "Email goes through Postmark (lib/email.ts:3)"
+      }
+    ]
+  }
+}
+```
+
+A vendor is new when it is called at runtime and isn't in the saved vendors. It
+is removed when no call site remains. A fact is stale when the code shows
+something different from the saved answer; say nothing about facts the code
+still supports. `answers` still covers every question with a codebase hint.
+
 ## How the main agent uses the result
 
 Keep the scout's JSON; you can't write files while planning. When you ask a
