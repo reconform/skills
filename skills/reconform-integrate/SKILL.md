@@ -2,7 +2,7 @@
 name: reconform-integrate
 description: Add Reconform terms acceptance to a web app. Creates consent sessions on the backend for the signed-in user, shows the consent screen, and checks acceptance status before granting access. Use after `npx @reconform/cli@next init`, or when asked to wire Reconform into an app.
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
 ---
 
 # Add terms acceptance to an app

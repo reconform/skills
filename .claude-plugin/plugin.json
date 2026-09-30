@@ -1,7 +1,7 @@
 {
   "name": "reconform",
   "description": "Reconform agent skills: add terms acceptance to an app, interview for and draft legal documents, and prepare them for publication.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "Reconform",
     "url": "https://www.reconform.co"

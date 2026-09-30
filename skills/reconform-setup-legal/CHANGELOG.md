@@ -1,3 +1,9 @@
+# 2.0.1
+
+Rebuild the helper against the current API schemas, which add the
+`checkbox` session option and bundle acceptances. No change to the interview,
+templates, or commands. The 2.0.0 archive stays available.
+
 # 2.0.0
 
 Plan first: pick documents from a catalog, have a read-only sub-agent propose

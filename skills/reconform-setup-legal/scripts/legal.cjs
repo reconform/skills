@@ -20069,8 +20069,10 @@ var ConsentCheckSchema = external_exports.object({
   documents: external_exports.array(SlugSchema).min(1).max(50).optional(),
   locale: LocaleSchema.optional()
 }).strict();
+var CheckboxModeSchema = external_exports.enum(["separate", "combined"]);
 var CreateConsentSessionSchema = ConsentCheckSchema.extend({
   require_scroll: external_exports.boolean().default(false),
+  checkbox: CheckboxModeSchema.default("separate"),
   metadata: MetadataSchema.default({})
 });
 var RequirementSchema = external_exports.object({
@@ -20112,6 +20114,7 @@ var ConsentSessionSchema = external_exports.object({
     "nothing_required"
   ]),
   require_scroll: external_exports.boolean(),
+  checkbox: CheckboxModeSchema,
   locale: LocaleSchema,
   metadata: MetadataSchema,
   expires_at: TimestampSchema,
@@ -20135,6 +20138,20 @@ var CreateAcceptanceSchema = external_exports.object({
   evidence: MetadataSchema.default({}),
   external_ref: external_exports.string().max(256).optional()
 }).strict().refine((value) => value.version_id === void 0 !== (value.document === void 0), "Supply either version_id or document.");
+var CreateBundleAcceptanceSchema = external_exports.object({
+  subject: SubjectInputSchema,
+  version_ids: external_exports.array(VersionIdSchema).min(2).max(50).optional(),
+  documents: external_exports.array(SlugSchema).min(2).max(50).optional(),
+  accepted_at: TimestampSchema.optional(),
+  ip: external_exports.string().max(45).optional(),
+  user_agent: external_exports.string().max(2e3).optional(),
+  locale: LocaleSchema.optional(),
+  evidence: MetadataSchema.default({}),
+  external_ref: external_exports.string().max(256).optional()
+}).strict().refine((value) => value.version_ids === void 0 !== (value.documents === void 0), "Supply either version_ids or documents.").refine((value) => {
+  const list = value.version_ids ?? value.documents ?? [];
+  return new Set(list).size === list.length;
+}, "List each document once.");
 var ImportAcceptancesSchema = external_exports.array(CreateAcceptanceSchema).min(1).max(1e3);
 var AcceptanceSchema = external_exports.object({
   id: AcceptanceIdSchema,
@@ -21993,7 +22010,7 @@ async function saveDraft(options, spec, markdown, references) {
     );
   const desired = CreateDraftSchema.parse({
     content_md: markdown,
-    change_summary: `Prepared with reconform-setup-legal 2.0.0 (${spec.kind})`
+    change_summary: `Prepared with reconform-setup-legal 2.0.1 (${spec.kind})`
   });
   if (version2?.status === "draft") {
     if (c.state.pending && c.state.pending.label !== `update:${spec.slug}`)

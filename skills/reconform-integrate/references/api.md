@@ -1,4 +1,4 @@
-# Reconform integration API, skill version 1.0.0
+# Reconform integration API, skill version 2.1.0
 
 Credentials come from the local environment. `RECONFORM_API_KEY` is organization- and mode-scoped: `rk_test_` keys only see test documents, and `rk_live_` keys only live ones. Keep keys on the server.
 
@@ -12,6 +12,7 @@ Credentials come from the local environment. `RECONFORM_API_KEY` is organization
 `new Reconform(apiKey, { baseUrl })` from `@reconform/node`.
 
 - `reconform.consentSessions.create({ subject: { external_id }, documents: ["terms"], require_scroll: true })` calls `POST /consent_sessions`. It returns `status` (`pending` or `nothing_required`), `client_secret`, and `expires_at` (one hour). Send only the client secret and status to the browser.
+- To show one checkbox for several documents, such as "I confirm that I’ve read and accept Terms of Service and Privacy Policy", pass `documents: ["terms", "privacy"], checkbox: "combined"`. The label lists documents in the order given. Every slug must be a published document. Use it only when the person asks for a combined checkbox; the default integration requests `terms` alone.
 - `reconform.subjects.status(\`ext:${userId}\`)`calls`GET /subjects/{id}/status`and returns`needs_action` plus per-document states. Use it to decide access.
 - `subject.external_id` is the app's stable user ID from the authenticated session. `email` and `name` are optional.
 

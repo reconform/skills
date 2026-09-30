@@ -2,7 +2,7 @@
 name: reconform-setup-legal
 description: Interview a B2B SaaS founder with structured questions, then turn licensed templates into complete legal documents with no blanks left. Use to set up terms, privacy, DPA, subprocessors and the other catalog documents, to replace a sandbox's example terms, or to revise documents after practices change.
 metadata:
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Set up legal pages
