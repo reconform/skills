@@ -2,7 +2,7 @@
 name: reconform-integrate
 description: Add Reconform terms acceptance to a web app. Creates consent sessions on the backend for the signed-in user, shows the consent screen, and checks acceptance status before granting access. Use when asked to wire Reconform into an app; it can create a test sandbox with plain API calls first.
 metadata:
-  version: "2.2.0"
+  version: "2.3.0"
 ---
 
 # Add terms acceptance to an app
@@ -11,9 +11,10 @@ Read [the API reference](references/api.md) and [the framework recipes](referenc
 
 ## Before you start
 
-1. Look for `RECONFORM_API_KEY` in the environment or the app's env file. If it is missing, follow [the sandbox steps](references/sandbox.md): `curl` calls that create a test sandbox with published example terms, save the key to the env file without printing it, and write `.reconform/context.json`.
+1. Look for `RECONFORM_API_KEY` in the environment or the app's env file. If it is missing, ask the person whether to create a test sandbox, then follow [the sandbox steps](references/sandbox.md): `curl` calls that create a test sandbox with published example terms, save the key to the env file without printing it, and write `.reconform/context.json`.
 2. Never print the key, put it in browser code, or commit the env file. Keep the env file and `.reconform/auth.header` in `.gitignore`.
-3. Do not edit `.reconform/legal/`. Another agent may be drafting documents there at the same time.
+3. You change the person's code, so keep to the files the integration needs and list every file you touched. Don't send their code or data to any service.
+4. Do not edit `.reconform/legal/`. Another agent may be drafting documents there at the same time.
 
 ## Find the app's shape
 

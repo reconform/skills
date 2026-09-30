@@ -1,3 +1,9 @@
+# 2.3.0
+
+Read the codebase only after the founder agrees, and never send anything from
+it anywhere. The scout guide adds privacy rules: no secrets, env values or
+customer data, no running or installing, and facts with file references only.
+
 # 2.2.0
 
 Fetch the helper and only the reference files it needs one at a time with

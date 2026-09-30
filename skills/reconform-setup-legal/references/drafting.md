@@ -28,7 +28,7 @@ needs:
 For terms, that is:
 
 ```sh
-B=https://www.reconform.co/skills/reconform-setup-legal/2.2.0
+B=https://www.reconform.co/skills/reconform-setup-legal/2.3.0
 D=.reconform/skills/reconform-setup-legal
 mkdir -p $D/scripts $D/references/questions $D/references/templates
 curl -fsS -o $D/scripts/legal.cjs $B/scripts/legal.cjs

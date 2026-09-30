@@ -1,10 +1,24 @@
 # Codebase scout
 
-Give this file to a read-only sub-agent (an Explore-type agent where one
-exists) together with the chosen document ids and the path or URL of this
+Use this only after the founder has agreed to let you read their codebase. Give
+this file to a read-only sub-agent (an Explore-type agent where one exists)
+together with the chosen document ids and the path or URL of this
 `references/` directory. The scout proposes answers from the repository so the
 founder confirms instead of typing. It never decides anything and never
 changes a file.
+
+## Privacy rules
+
+- Work only on this machine. Don't send code, file contents, or anything you
+  read to Reconform or to any other service, and don't fetch anything.
+- Look only for what the questions ask. Don't open env files, keys,
+  certificates, credential stores, database dumps, or customer data. A variable
+  name such as `STRIPE_SECRET_KEY` in code or an example env file is enough
+  evidence of a vendor; its value is never needed.
+- Don't run the app, its scripts, or its tests, and don't install anything.
+- Report facts with a file and line as evidence. Don't copy code or text from
+  the repository into your report beyond a short quote of a claim you are
+  flagging as a conflict.
 
 ## Instructions for the scout
 

@@ -1,3 +1,8 @@
+# 2.3.0
+
+Ask before creating a test sandbox, keep code changes to the integration's
+files, and send nothing from the codebase to any service.
+
 # 2.2.0
 
 Set up and check the test sandbox with plain `curl` calls and a short local

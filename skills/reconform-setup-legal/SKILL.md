@@ -2,7 +2,7 @@
 name: reconform-setup-legal
 description: Interview a B2B SaaS founder with structured questions, then turn licensed templates into complete legal documents with no blanks left. Use to set up terms, privacy, DPA, subprocessors and the other catalog documents, to replace a sandbox's example terms, or to revise documents after practices change.
 metadata:
-  version: "2.2.0"
+  version: "2.3.0"
 ---
 
 # Set up legal pages
@@ -38,15 +38,20 @@ had reviewed.
 
 ## Plan: pick, scout, interview
 
-Stay in plan mode (or make no file changes) until the founder approves the plan.
+Make no file changes until the founder approves the plan; plan mode is a good
+fit where your agent has one. Nothing from their codebase goes to Reconform or
+anywhere else: only the document text and facts they approve are saved.
 
 1. **Pick documents.** Ask with your question tool: one multi-select question
    per `picker_group` in the catalog, each option a catalog `name`. Say these
    are the documents with vetted templates and that they can type anything
    else. Order the chosen documents so each comes after its `depends_on`.
-2. **Scout.** Start a read-only sub-agent with
-   [the scout guide](references/codebase-scout.md) and the chosen ids. While it
-   works, you can ask the company questions.
+2. **Scout, if they agree.** Ask whether you may read their codebase to
+   propose answers: read-only, on their machine, only for the interview's
+   facts, with nothing sent anywhere. If they agree, start a read-only
+   sub-agent with [the scout guide](references/codebase-scout.md) and the
+   chosen ids, and ask the company questions while it works. If they don't,
+   ask every question directly.
 3. **Company questions.** Ask the questions in
    [shared.json](references/questions/shared.json) that any chosen document
    `uses`. Ask each once.

@@ -1,5 +1,9 @@
 # Create and check a test sandbox with the API
 
+Ask the person before creating a sandbox: it creates a free test organization
+in Reconform that expires after seven days unless they claim it. The request
+sends no data about their business or code.
+
 These steps use only `curl` and a short local script, so you can read every
 command before it runs. Run them from the app's root directory. The API key
 never needs to appear in the conversation, in a command line, or in output.

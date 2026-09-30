@@ -22010,7 +22010,7 @@ async function saveDraft(options, spec, markdown, references) {
     );
   const desired = CreateDraftSchema.parse({
     content_md: markdown,
-    change_summary: `Prepared with reconform-setup-legal 2.2.0 (${spec.kind})`
+    change_summary: `Prepared with reconform-setup-legal 2.3.0 (${spec.kind})`
   });
   if (version2?.status === "draft") {
     if (c.state.pending && c.state.pending.label !== `update:${spec.slug}`)
